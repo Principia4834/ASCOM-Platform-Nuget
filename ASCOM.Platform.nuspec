@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>ASCOM.Platform</id>
+        <version>6.2.0.0</version>
+        <title>ASCOM Platform binaries</title>
+        <authors>Timothy P. Long</authors>
+        <owners>Tigra Astronomy</owners>
+        <licenseUrl>http://tigra.mit-license.org</licenseUrl>
+        <projectUrl>https://bitbucket.org/tigra-astronomy/ascom.platform</projectUrl>
+        <iconUrl>http://tigra-astronomy.com/Media/TigraAstronomy/NuGet-Package-Icons/ASCOM.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <developmentDependency>true</developmentDependency>
+        <description>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package. Useful when you need to build a project on a computer where you can't or prefer not to install the ASCOM Platform, e.g. on a build server or build agent. On a machine with the ASCOM Platform installed, these assemblies will be present in the Global Assembly Cache, therefore, do not redistribute these files with your application. The assemblies contained in this package are extracted from the ASCOM Platform Developer Tools and are the intellectual property of The ASCOM Initiative, see http://ascom-standards.org/</description>
+        <summary>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package.</summary>
+        <releaseNotes>Contains binaries from ASCOM Platform 6.2</releaseNotes>
+        <copyright>Copyright © 2010-2016 Tigra Astronomy, all rights reserved</copyright>
+        <language>en-GB</language>
+        <tags>ASCOM Platform astronomy tigra</tags>
+    </metadata>
+    <files>
+        <file src="contributors.txt" target="content\contributors.txt" />
+        <file src="ReadMe.md" target="content\ReadMe.md" />
+        <file src="lib\ASCOM.Utilities.Video.dll" target="lib\net40\ASCOM.Utilities.Video.dll" />
+        <file src="lib\ASCOM.Astrometry.dll" target="lib\ASCOM.Astrometry.dll" />
+        <file src="lib\ASCOM.Astrometry.xml" target="lib\ASCOM.Astrometry.xml" />
+        <file src="lib\ASCOM.Attributes.dll" target="lib\ASCOM.Attributes.dll" />
+        <file src="lib\ASCOM.Attributes.XML" target="lib\ASCOM.Attributes.XML" />
+        <file src="lib\ASCOM.Controls.dll" target="lib\ASCOM.Controls.dll" />
+        <file src="lib\ASCOM.Controls.xml" target="lib\ASCOM.Controls.xml" />
+        <file src="lib\ASCOM.DeviceInterfaces.dll" target="lib\ASCOM.DeviceInterfaces.dll" />
+        <file src="lib\ASCOM.DeviceInterfaces.xml" target="lib\ASCOM.DeviceInterfaces.xml" />
+        <file src="lib\ASCOM.DriverAccess.dll" target="lib\ASCOM.DriverAccess.dll" />
+        <file src="lib\ASCOM.DriverAccess.xml" target="lib\ASCOM.DriverAccess.xml" />
+        <file src="lib\ASCOM.Exceptions.dll" target="lib\ASCOM.Exceptions.dll" />
+        <file src="lib\ASCOM.Exceptions.XML" target="lib\ASCOM.Exceptions.XML" />
+        <file src="lib\ASCOM.Internal.Extensions.dll" target="lib\ASCOM.Internal.Extensions.dll" />
+        <file src="lib\ASCOM.Internal.Extensions.XML" target="lib\ASCOM.Internal.Extensions.XML" />
+        <file src="lib\ASCOM.SettingsProvider.dll" target="lib\ASCOM.SettingsProvider.dll" />
+        <file src="lib\ASCOM.SettingsProvider.XML" target="lib\ASCOM.SettingsProvider.XML" />
+        <file src="lib\ASCOM.Utilities.dll" target="lib\ASCOM.Utilities.dll" />
+        <file src="lib\ASCOM.Utilities.xml" target="lib\ASCOM.Utilities.xml" />
+        <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />
+    </files>
+</package>
