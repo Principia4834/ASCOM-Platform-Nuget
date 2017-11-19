@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>ASCOM.Platform</id>
-        <version>6.3.0.0</version>
+        <version>6.3.0.2831</version>
         <title>ASCOM Platform binaries</title>
         <authors>Timothy P. Long</authors>
         <owners>Tigra Astronomy</owners>
@@ -19,7 +19,6 @@
         <tags>ASCOM Platform astronomy tigra</tags>
     </metadata>
     <files>
-        <file src="contributors.txt" target="content\contributors.txt" />
         <file src="ReadMe.md" target="content\ReadMe.md" />
         <file src="lib\ASCOM.Utilities.Video.dll" target="lib\net40\ASCOM.Utilities.Video.dll" />
         <file src="lib\ASCOM.Astrometry.dll" target="lib\ASCOM.Astrometry.dll" />
