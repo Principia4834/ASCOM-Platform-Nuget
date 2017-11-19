@@ -20,25 +20,10 @@
     </metadata>
     <files>
         <file src="ReadMe.md" target="content\ReadMe.md" />
-        <file src="lib\ASCOM.Utilities.Video.dll" target="lib\net40\ASCOM.Utilities.Video.dll" />
-        <file src="lib\ASCOM.Astrometry.dll" target="lib\ASCOM.Astrometry.dll" />
-        <file src="lib\ASCOM.Astrometry.xml" target="lib\ASCOM.Astrometry.xml" />
-        <file src="lib\ASCOM.Attributes.dll" target="lib\ASCOM.Attributes.dll" />
-        <file src="lib\ASCOM.Attributes.XML" target="lib\ASCOM.Attributes.XML" />
-        <file src="lib\ASCOM.Controls.dll" target="lib\ASCOM.Controls.dll" />
-        <file src="lib\ASCOM.Controls.xml" target="lib\ASCOM.Controls.xml" />
-        <file src="lib\ASCOM.DeviceInterfaces.dll" target="lib\ASCOM.DeviceInterfaces.dll" />
-        <file src="lib\ASCOM.DeviceInterfaces.xml" target="lib\ASCOM.DeviceInterfaces.xml" />
-        <file src="lib\ASCOM.DriverAccess.dll" target="lib\ASCOM.DriverAccess.dll" />
-        <file src="lib\ASCOM.DriverAccess.xml" target="lib\ASCOM.DriverAccess.xml" />
-        <file src="lib\ASCOM.Exceptions.dll" target="lib\ASCOM.Exceptions.dll" />
-        <file src="lib\ASCOM.Exceptions.XML" target="lib\ASCOM.Exceptions.XML" />
-        <file src="lib\ASCOM.Internal.Extensions.dll" target="lib\ASCOM.Internal.Extensions.dll" />
-        <file src="lib\ASCOM.Internal.Extensions.XML" target="lib\ASCOM.Internal.Extensions.XML" />
-        <file src="lib\ASCOM.SettingsProvider.dll" target="lib\ASCOM.SettingsProvider.dll" />
-        <file src="lib\ASCOM.SettingsProvider.XML" target="lib\ASCOM.SettingsProvider.XML" />
-        <file src="lib\ASCOM.Utilities.dll" target="lib\ASCOM.Utilities.dll" />
-        <file src="lib\ASCOM.Utilities.xml" target="lib\ASCOM.Utilities.xml" />
+        <file src="lib\**" target="lib\net40" />
+        <file src="lib\**" target="lib\net45" />
+        <file src="lib\**" target="lib\net47" />
+        <file src="lib\**" target="lib\net471" />
         <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />
     </files>
 </package>
