@@ -19,49 +19,11 @@
         <tags>ASCOM Platform astronomy tigra</tags>
     </metadata>
     <files>
-        <file src="contributors.txt" target="content\contributors.txt" />
         <file src="ReadMe.md" target="content\ReadMe.md" />
-        <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />
-        <!-- dotNET 4.0+ -->
-        <file src="lib\ASCOM.Utilities.Video.dll" target="lib\net40\ASCOM.Utilities.Video.dll" />
-        <file src="lib\ASCOM.Astrometry.dll" target="lib\net40\ASCOM.Astrometry.dll" />
-        <file src="lib\ASCOM.Astrometry.xml" target="lib\net40\ASCOM.Astrometry.xml" />
-        <file src="lib\ASCOM.Attributes.dll" target="lib\net40\ASCOM.Attributes.dll" />
-        <file src="lib\ASCOM.Attributes.XML" target="lib\net40\ASCOM.Attributes.XML" />
-        <file src="lib\ASCOM.Cache.dll" target="lib\net40\ASCOM.Cache.dll">
-        <file src="lib\ASCOM.Cache.xml" target="lib\net40\ASCOM.Cache.xml">
-        <file src="lib\ASCOM.Controls.dll" target="lib\net40\ASCOM.Controls.dll" />
-        <file src="lib\ASCOM.Controls.xml" target="lib\net40\ASCOM.Controls.xml" />
-        <file src="lib\ASCOM.DeviceInterfaces.dll" target="lib\net40\ASCOM.DeviceInterfaces.dll" />
-        <file src="lib\ASCOM.DeviceInterfaces.xml" target="lib\net40\ASCOM.DeviceInterfaces.xml" />
-        <file src="lib\ASCOM.DriverAccess.dll" target="lib\net40\ASCOM.DriverAccess.dll" />
-        <file src="lib\ASCOM.DriverAccess.xml" target="lib\net40\ASCOM.DriverAccess.xml" />
-        <file src="lib\ASCOM.Exceptions.dll" target="lib\net40\ASCOM.Exceptions.dll" />
-        <file src="lib\ASCOM.Exceptions.XML" target="lib\net40\ASCOM.Exceptions.XML" />
-        <file src="lib\ASCOM.Internal.Extensions.dll" target="lib\net40\ASCOM.Internal.Extensions.dll" />
-        <file src="lib\ASCOM.Internal.Extensions.XML" target="lib\net40\ASCOM.Internal.Extensions.XML" />
-        <file src="lib\ASCOM.SettingsProvider.dll" target="lib\net40\ASCOM.SettingsProvider.dll" />
-        <file src="lib\ASCOM.SettingsProvider.XML" target="lib\net40\ASCOM.SettingsProvider.XML" />
-        <file src="lib\ASCOM.Utilities.dll" target="lib\net40\ASCOM.Utilities.dll" />
-        <file src="lib\ASCOM.Utilities.xml" target="lib\net40\ASCOM.Utilities.xml" />
-        <!-- dotNet 3.5 -->
-        <file src="lib\ASCOM.Astrometry.dll" target="lib\net35\ASCOM.Astrometry.dll" />
-        <file src="lib\ASCOM.Astrometry.xml" target="lib\net35\ASCOM.Astrometry.xml" />
-        <file src="lib\ASCOM.Attributes.dll" target="lib\net35\ASCOM.Attributes.dll" />
-        <file src="lib\ASCOM.Attributes.XML" target="lib\net35\ASCOM.Attributes.XML" />
-        <file src="lib\ASCOM.Controls.dll" target="lib\net35\ASCOM.Controls.dll" />
-        <file src="lib\ASCOM.Controls.xml" target="lib\net35\ASCOM.Controls.xml" />
-        <file src="lib\ASCOM.DeviceInterfaces.dll" target="lib\net35\ASCOM.DeviceInterfaces.dll" />
-        <file src="lib\ASCOM.DeviceInterfaces.xml" target="lib\net35\ASCOM.DeviceInterfaces.xml" />
-        <file src="lib\ASCOM.DriverAccess.dll" target="lib\net35\ASCOM.DriverAccess.dll" />
-        <file src="lib\ASCOM.DriverAccess.xml" target="lib\net35\ASCOM.DriverAccess.xml" />
-        <file src="lib\ASCOM.Exceptions.dll" target="lib\net35\ASCOM.Exceptions.dll" />
-        <file src="lib\ASCOM.Exceptions.XML" target="lib\net35\ASCOM.Exceptions.XML" />
-        <file src="lib\ASCOM.Internal.Extensions.dll" target="lib\net35\ASCOM.Internal.Extensions.dll" />
-        <file src="lib\ASCOM.Internal.Extensions.XML" target="lib\net35\ASCOM.Internal.Extensions.XML" />
-        <file src="lib\ASCOM.SettingsProvider.dll" target="lib\net35\ASCOM.SettingsProvider.dll" />
-        <file src="lib\ASCOM.SettingsProvider.XML" target="lib\net35\ASCOM.SettingsProvider.XML" />
-        <file src="lib\ASCOM.Utilities.dll" target="lib\net35\ASCOM.Utilities.dll" />
-        <file src="lib\ASCOM.Utilities.xml" target="lib\net35\ASCOM.Utilities.xml" />
+        <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />     
+        <file src="lib\**" target="lib\net40" />
+        <file src="lib\**" target="lib\net45" />
+        <file src="lib\**" target="lib\net47" />
+        <file src="lib\**" target="lib\net471" />
     </files>
 </package>
