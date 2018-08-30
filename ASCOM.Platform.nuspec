@@ -23,7 +23,7 @@
         <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />     
         <file src="lib\**" target="lib\net40" />
         <file src="lib\**" target="lib\net45" />
+        <file src="lib\**" target="lib\net46" />
         <file src="lib\**" target="lib\net47" />
-        <file src="lib\**" target="lib\net471" />
     </files>
 </package>
