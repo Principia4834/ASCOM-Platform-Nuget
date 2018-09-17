@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-    <metadata>
+    <metadata minClientVersion="2.5">
         <id>ASCOM.Platform</id>
-        <version>6.4.0.0</version>
+        <version>6.4.1</version>
         <title>ASCOM Platform binaries</title>
         <authors>Timothy P. Long</authors>
         <owners>Tigra Astronomy</owners>
@@ -18,12 +18,4 @@
         <language>en-GB</language>
         <tags>ASCOM Platform astronomy tigra</tags>
     </metadata>
-    <files>
-        <file src="ReadMe.md" target="content\ReadMe.md" />
-        <file src="tools\buildsupport\BootstrapAscomProfileStore.ps1" target="tools\BootstrapAscomProfileStore.ps1" />     
-        <file src="lib\**" target="lib\net40" />
-        <file src="lib\**" target="lib\net45" />
-        <file src="lib\**" target="lib\net46" />
-        <file src="lib\**" target="lib\net47" />
-    </files>
 </package>
