@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata minClientVersion="2.5">
         <id>ASCOM.Platform</id>
-        <version>6.4.1</version>
+        <version>6.4.2</version>
         <title>ASCOM Platform binaries</title>
         <authors>Timothy P. Long</authors>
         <owners>Tigra Astronomy</owners>
@@ -10,7 +10,6 @@
         <projectUrl>https://bitbucket.org/tigra-astronomy/ascom.platform</projectUrl>
         <iconUrl>http://tigra-astronomy.com/Media/TigraAstronomy/NuGet-Package-Icons/ASCOM.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <developmentDependency>true</developmentDependency>
         <description>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package. Useful when you need to build a project on a computer where you can't or prefer not to install the ASCOM Platform, e.g. on a build server or build agent. On a machine with the ASCOM Platform installed, these assemblies will be present in the Global Assembly Cache, therefore, do not redistribute these files with your application. The assemblies contained in this package are extracted from the ASCOM Platform Developer Tools and are the intellectual property of The ASCOM Initiative, see http://ascom-standards.org/</description>
         <summary>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package.</summary>
         <releaseNotes>Contains binaries from ASCOM Platform 6.3</releaseNotes>
