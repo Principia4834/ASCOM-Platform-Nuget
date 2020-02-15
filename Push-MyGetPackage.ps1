@@ -1,15 +1,15 @@
-$feed = "https://www.myget.org/F/tigra-astronomy/api/v2/package"
-$symbolFeed = "https://www.myget.org/F/tigra-astronomy/symbols/api/v2/package"
+# This script should be run in the project root directory.
+# It will look for and push any packages found in the .\Nuget-Packages directory.
+
+$feed = "https://www.myget.org/F/ascom-initiative/api/v2/package"
+$symbolFeed = "https://www.myget.org/F/ascom-initiative/symbols/api/v2/package"
 Push-Location .\Nuget-Packages
 $packages = Get-ChildItem -Filter *.nupkg
-foreach ($package in $packages)
-{
-    if ($package.Name -like "*.symbols.nupkg")
-    {
+foreach ($package in $packages) {
+    if ($package.Name -like "*.symbols.nupkg") {
         NuGet.exe push -Source $symbolFeed $package
     }
-    else 
-    {
+    else {
         NuGet.exe push -Source $feed $package    
     }
 }
