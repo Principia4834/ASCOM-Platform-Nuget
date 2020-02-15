@@ -6,7 +6,7 @@ Important Note: The assemblies contained in the package are intended only for us
 
 The ASCOM assemblies themselves are licensed by [The ASCOM Initiative][ascom] using a Creative Commons license, details can be found in the [Ownership and Licensing][ascom-license] page of the ASCOM web site.
 
-Copyright ­© 2017-20 Tigra Astronomy, all rights reserved
+Copyright ­© 2010-20 Tigra Astronomy, all rights reserved
 
 [license]:	http://tigra.mit-license.org
 [ascom-license]: https://ascom-standards.org/About/Licensing.htm

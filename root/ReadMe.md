@@ -11,4 +11,6 @@ All other content is Copyright Â© 2016-18 Tigra Astronomy, all rights reserved. 
 
 Tim Long,  
 Tigra Astronomy [http://tigra-astronomy.com](http://tigra-astronomy.com "Tigra Astronomy Web Site")  
-September 2018
+February 2020
+
+Copyright © 2010-20 Tigra Astronomy, all rights reserved
