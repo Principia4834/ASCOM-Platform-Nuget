@@ -112,59 +112,33 @@
             <remarks><p style="color:red"><b>Must be implemented</b></p> </remarks>
         </member>
         <member name="M:ASCOM.DriverAccess.AscomDriver.Action(System.String,System.String)">
-            <summary>
-            Invokes the specified device-specific action.
-            </summary>
-            <param name="ActionName">
-            A well known name agreed by interested parties that represents the action to be carried out. 
-            </param>
-            <param name="ActionParameters">List of required parameters or an <see cref="F:System.String.Empty">Empty String</see> if none are required.
-            </param>
+            <summary>Invokes the specified device-specific custom action.</summary>
+            <param name="ActionName">A well known name agreed by interested parties that represents the action to be carried out.</param>
+            <param name="ActionParameters">List of required parameters or an <see cref="F:System.String.Empty">Empty String</see> if none are required.</param>
             <returns>A string response. The meaning of returned strings is set by the driver author.</returns>
-            <exception cref="T:ASCOM.MethodNotImplementedException">Throws this exception if no actions are suported.</exception>
-            <exception cref="T:ASCOM.ActionNotImplementedException">It is intended that the SupportedActions method will inform clients 
-            of driver capabilities, but the driver must still throw an ASCOM.ActionNotImplemented exception if it is asked to 
-            perform an action that it does not support.</exception>
+            <exception cref="T:ASCOM.MethodNotImplementedException">Thrown if no actions are supported.</exception>
+            <exception cref="T:ASCOM.ActionNotImplementedException">It is intended that the <see cref="P:ASCOM.DriverAccess.AscomDriver.SupportedActions"/> method will inform clients of driver capabilities, but the driver must still throw 
+            an <see cref="T:ASCOM.ActionNotImplementedException"/> exception  if it is asked to perform an action that it does not support.</exception>
             <exception cref="T:ASCOM.NotConnectedException">If the driver is not connected.</exception>
-            <exception cref="T:ASCOM.DriverException">Must throw an exception if the call was not successful</exception>
-            <example>Suppose filter wheels start to appear with automatic wheel changers; new actions could 
-            be “FilterWheel:QueryWheels” and “FilterWheel:SelectWheel”. The former returning a 
-            formatted list of wheel names and the second taking a wheel name and making the change, returning appropriate 
-            values to indicate success or failure.
-            </example>
-            <remarks><p style="color:red"><b>Can throw a not implemented exception</b></p> 
-            This method is intended for use in all current and future device types and to avoid name clashes, management of action names 
-            is important from day 1. A two-part naming convention will be adopted - <b>DeviceType:UniqueActionName</b> where:
-            <list type="bullet">
-            <item><description>DeviceType is the same value as would be used by <see cref="P:ASCOM.Utilities.Chooser.DeviceType"/> e.g. Telescope, Camera, Switch etc.</description></item>
-            <item><description>UniqueActionName is a single word, or multiple words joined by underscore characters, that sensibly describes the action to be performed.</description></item>
-            </list>
-            <para>
-            It is recommended that UniqueActionNames should be a maximum of 16 characters for legibility.
-            Should the same function and UniqueActionName be supported by more than one type of device, the reserved DeviceType of 
-            “General” will be used. Action names will be case insensitive, so FilterWheel:SelectWheel, filterwheel:selectwheel 
-            and FILTERWHEEL:SELECTWHEEL will all refer to the same action.</para>
-            <para>The names of all supported actions must bre returned in the <see cref="P:ASCOM.DriverAccess.AscomDriver.SupportedActions"/> property.</para>
+            <exception cref="T:ASCOM.DriverException">Must throw an exception if the call was not successful.</exception>
+            <para>Suppose filter wheels start to appear with automatic wheel changers; new actions could be <c>QueryWheels</c> and <c>SelectWheel</c>. The former returning a formatted list
+            of wheel names and the second taking a wheel name and making the change, returning appropriate values to indicate success or failure.</para>
+            <remarks><p style="color:red"><b>Must be implemented.</b></p>
+            <para>Action names are case insensitive, so SelectWheel, selectwheel and SELECTWHEEL all refer to the same action.</para>
+            <para>The names of all supported actions must be returned in the <see cref="P:ASCOM.DriverAccess.AscomDriver.SupportedActions" /> property.</para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.AscomDriver.SupportedActions">
-             <summary>
-             Returns the list of action names supported by this driver.
-             </summary>
-             <value>An ArrayList of strings (SafeArray collection) containing the names of supported actions.</value>
-             <exception cref="T:ASCOM.DriverException">Must throw an exception if the call was not successful</exception>
-             <remarks><p style="color:red"><b>Must be implemented</b></p> This method must return an empty arraylist if no actions are supported. Please do not throw a 
-             <see cref="T:ASCOM.PropertyNotImplementedException" />.
-             <para>This is an aid to client authors and testers who would otherwise have to repeatedly poll the driver to determine its capabilities. 
-             Returned action names may be in mixed case to enhance presentation but  will be recognised case insensitively in 
-             the <see cref="M:ASCOM.DriverAccess.AscomDriver.Action(System.String,System.String)">Action</see> method.</para>
-            <para>An array list collection has been selected as the vehicle for  action names in order to make it easier for clients to
-             determine whether a particular action is supported. This is easily done through the Contains method. Since the
-             collection is also ennumerable it is easy to use constructs such as For Each ... to operate on members without having to be concerned 
-             about hom many members are in the collection. </para>
-             <para>Collections have been used in the Telescope specification for a number of years and are known to be compatible with COM. Within .NET
-             the ArrayList is the correct implementation to use as the .NET Generic methods are not compatible with COM.</para>
-             </remarks>
+            <summary>Returns the list of custom action names supported by this driver.</summary>
+            <value>An ArrayList of strings (SafeArray collection) containing the names of supported actions.</value>
+            <exception cref="T:ASCOM.DriverException">Must throw an exception if the call was not successful</exception>
+            <remarks><p style="color:red"><b>Must be implemented</b></p>
+            <para>This method must return an empty <see cref="T:System.Collections.ArrayList" /> if no actions are supported. Do not throw a <see cref="T:ASCOM.PropertyNotImplementedException" />.</para>
+            <para>This is an aid to client authors and testers who would otherwise have to repeatedly poll the driver to determine its capabilities. Returned action names may be in mixed case to
+            enhance presentation but the <see cref="M:ASCOM.DriverAccess.AscomDriver.Action(System.String,System.String)" /> method is case insensitive.</para>
+            <para>Collections have been used in the Telescope specification for a number of years and are known to be compatible with COM. Within .NET, <see cref="T:System.Collections.ArrayList" /> is the correct
+            implementation to use because the .NET Generic methods are not compatible with COM.</para>
+            </remarks>
         </member>
         <member name="M:ASCOM.DriverAccess.AscomDriver.CommandBlind(System.String,System.Boolean)">
             <summary>
@@ -1631,6 +1605,132 @@
              the driver is aware of the capabilities of the specific camera model.</para>
              </remarks>
         </member>
+        <member name="T:ASCOM.DriverAccess.CoverCalibrator">
+            <summary>
+            Provides universal access to CoverCalibrator drivers
+            </summary>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.#ctor(System.String)">
+            <summary>
+            Creates a CoverCalibrator object with the given ProgID
+            </summary>
+            <param name="coverCalibratorId">ProgID of the CoverCalibrator device to be accessed.</param>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.Choose(System.String)">
+            <summary>
+            Brings up the ASCOM Chooser Dialogue to choose a CoverCalibrator
+            </summary>
+            <param name="coverCalibratorId">CoverCalibrator ProgID for default or null for None</param>
+            <returns>ProgID for chosen CoverCalibrator or null for none</returns>
+        </member>
+        <member name="P:ASCOM.DriverAccess.CoverCalibrator.CoverState">
+            <summary>
+            Returns the state of the device cover, if present, otherwise returns "NotPresent"
+            </summary>
+            <remarks>
+            <para>This is a mandatory property that must return a value, it must not throw a <see cref="T:ASCOM.PropertyNotImplementedException"/>.</para>
+            <para>The <see cref="F:ASCOM.DeviceInterface.CoverStatus.Unknown"/> state must only be returned if the device is unaware of the cover's state e.g. if the hardware does not report the open / closed state and the cover has just been powered on.
+            Clients do not need to take special action if this state is returned, they must carry on as usual, issuing  <see cref="M:ASCOM.DriverAccess.CoverCalibrator.OpenCover"/> or <see cref="M:ASCOM.DriverAccess.CoverCalibrator.CloseCover"/> commands as required.</para>
+            <para>If the cover hardware cannot report its state, the device could mimic this by recording the last configured state and returning this. Driver authors or device manufacturers may also wish to offer users
+            the capability of powering up in a known state e.g. Open or Closed and driving the hardware to this state when Connected is set <see langword="true"/>.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.OpenCover">
+            <summary>
+            Initiates cover opening if a cover is present
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> returns <see cref="F:ASCOM.DeviceInterface.CoverStatus.NotPresent"/>.</exception>
+            <remarks>
+            <para>While the cover is opening <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must return <see cref="F:ASCOM.DeviceInterface.CoverStatus.Moving"/>.</para>
+            <para>When the cover is open <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must return <see cref="F:ASCOM.DeviceInterface.CoverStatus.Open"/>.</para>
+            <para>If an error condition arises while moving between states, <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must be set to <see cref="F:ASCOM.DeviceInterface.CoverStatus.Error"/> rather than <see cref="F:ASCOM.DeviceInterface.CoverStatus.Unknown"/>.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.CloseCover">
+            <summary>
+            Initiates cover closing if a cover is present
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> returns <see cref="F:ASCOM.DeviceInterface.CoverStatus.NotPresent"/>.</exception>
+            <remarks>
+            <para>While the cover is closing <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must return <see cref="F:ASCOM.DeviceInterface.CoverStatus.Moving"/>.</para>
+            <para>When the cover is closed <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must return <see cref="F:ASCOM.DeviceInterface.CoverStatus.Closed"/>.</para>
+            <para>If an error condition arises while moving between states, <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> must be set to <see cref="F:ASCOM.DeviceInterface.CoverStatus.Error"/> rather than <see cref="F:ASCOM.DeviceInterface.CoverStatus.Unknown"/>.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.HaltCover">
+            <summary>
+            Stops any cover movement that may be in progress if a cover is present and cover movement can be interrupted.
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> returns <see cref="F:ASCOM.DeviceInterface.CoverStatus.NotPresent"/> or if cover movement cannot be interrupted.</exception>
+            <remarks>
+            <para>This must stop any cover movement quickly and set a <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> of <see cref="F:ASCOM.DeviceInterface.CoverStatus.Open"/>, <see cref="F:ASCOM.DeviceInterface.CoverStatus.Closed"/> 
+            or <see cref="F:ASCOM.DeviceInterface.CoverStatus.Unknown"/> as appropriate.</para>
+            <para>If cover movement cannot be interrupted, a <see cref="T:ASCOM.MethodNotImplementedException"/> must be thrown.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState">
+            <summary>
+            Returns the state of the calibration device, if present, otherwise returns "NotPresent"
+            </summary>
+            <remarks>
+            <para>This is a mandatory property that must return a value, it must not throw a <see cref="T:ASCOM.PropertyNotImplementedException"/>.</para>
+            <para>The <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Unknown"/> state must only be returned if the device is unaware of the calibrator's state e.g. if the hardware does not report the device's state and 
+            the calibrator has just been powered on. Clients do not need to take special action if this state is returned, they must carry on as usual, issuing <see cref="M:ASCOM.DriverAccess.CoverCalibrator.CalibratorOn(System.Int32)"/> and 
+            <see cref="M:ASCOM.DriverAccess.CoverCalibrator.CalibratorOff"/> commands as required.</para>
+            <para>If the calibrator hardware cannot report its state, the device could mimic this by recording the last configured state and returning this. Driver authors or device manufacturers may also wish to offer users
+            the capability of powering up in a known state and driving the hardware to this state when Connected is set <see langword="true"/>.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.CoverCalibrator.Brightness">
+            <summary>
+            Returns the current calibrator brightness in the range 0 (completely off) to <see cref="P:ASCOM.DriverAccess.CoverCalibrator.MaxBrightness"/> (fully on)
+            </summary>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> returns <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotPresent"/>.</exception>
+            <remarks>
+            <para>This is a mandatory property for a calibrator device </para>
+            <para>The brightness value must be 0 when the <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> is <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Off"/></para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.CoverCalibrator.MaxBrightness">
+            <summary>
+            The Brightness value that makes the calibrator deliver its maximum illumination.
+            </summary>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> returns <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotPresent"/>.</exception>
+            <remarks>
+            <para>This is a mandatory property for a calibrator device and must be within the integer range 1 to 2,147,483,647</para>
+            <para>A value of 1 indicates that the calibrator can only be "off" or "on".</para>
+            <para>A value of 10 indicates that the calibrator has 10 discreet illumination levels in addition to "off".</para>
+            <para>The value for this parameter should be determined by the driver author or device manufacturer based on the capabilities of the hardware used in the calibrator.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.CalibratorOn(System.Int32)">
+            <summary>
+            Turns the calibrator on at the specified brightness if the device has calibration capability
+            </summary>
+            <param name="Brightness">Sets the required calibrator illumination brightness in the range 0 (fully off) to <see cref="P:ASCOM.DriverAccess.CoverCalibrator.MaxBrightness"/> (fully on).</param>
+            <exception cref="T:ASCOM.MethodNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> returns <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotPresent"/>.</exception>
+            <exception cref="T:ASCOM.InvalidValueException">When the supplied brightness parameter is outside the range 0 to <see cref="P:ASCOM.DriverAccess.CoverCalibrator.MaxBrightness"/>.</exception>
+            <remarks>
+            <para>This is a mandatory method for a calibrator device that must be implemented.</para>
+            <para>If the calibrator takes some time to stabilise, the <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must return <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotReady"/>. When the 
+            calibrator is ready for use <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must return <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Ready"/>.</para>
+            <para>For devices with both cover and calibrator capabilities, this method may change the <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/>, if required.</para>
+            <para>If an error condition arises while turning on the calibrator, <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must be set to <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Error"/> rather than <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Unknown"/>.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.CoverCalibrator.CalibratorOff">
+            <summary>
+            Turns the calibrator off if the device has calibration capability
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">When <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> returns <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotPresent"/>.</exception>
+            <remarks>
+            <para>This is a mandatory method for a calibrator device.</para>
+            <para>If the calibrator requires time to safely stabilise after use, <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must return <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.NotReady"/>. When the 
+            calibrator is safely off <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must return <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Off"/>.</para>
+            <para>For devices with both cover and calibrator capabilities, this method will return the <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CoverState"/> to its status prior to calling <see cref="M:ASCOM.DriverAccess.CoverCalibrator.CalibratorOn(System.Int32)"/>.</para>
+            <para>If an error condition arises while turning off the calibrator, <see cref="P:ASCOM.DriverAccess.CoverCalibrator.CalibratorState"/> must be set to <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Error"/> rather than <see cref="F:ASCOM.DeviceInterface.CalibratorStatus.Unknown"/>.</para>
+            </remarks>
+        </member>
         <member name="T:ASCOM.DriverAccess.Dome">
             <summary>
             Provides universal access to ASCOM Dome drivers
@@ -2014,6 +2114,13 @@
              <para>If the <see cref="P:ASCOM.DriverAccess.Focuser.Absolute" /> property is False, then this is a relative positioning focuser. The <see cref="M:ASCOM.DriverAccess.Focuser.Move(System.Int32)">Move</see> command tells 
              the focuser to move in a relative direction, and the Position parameter of the <see cref="M:ASCOM.DriverAccess.Focuser.Move(System.Int32)">Move</see> method (in this case, step distance) 
              is an integer between minus <see cref="P:ASCOM.DriverAccess.Focuser.MaxIncrement" /> and plus <see cref="P:ASCOM.DriverAccess.Focuser.MaxIncrement" />.</para>
+             <para><b>BEHAVIOURAL CHANGE - Platform 6.4</b></para>
+             <para>Prior to Platform 6.4, the interface specification mandated that drivers must throw an <see cref="T:ASCOM.InvalidOperationException"/> if a move was attempted when <see cref="P:ASCOM.DriverAccess.Focuser.TempComp"/> was True, even if the focuser 
+             was able to execute the move safely without disrupting temperature compensation.</para>
+             <para>Following discussion on ASCOM-Talk in January 2018, the Focuser interface specification has been revised to IFocuserV3, removing the requrement to throw the InvalidOperationException exception. IFocuserV3 compliant drivers 
+             are expected to execute Move requests when temperature compensation is active and to hide any specific actions required by the hardware from the client. For example this could be achieved by disabling temperature compensation, moving the focuser and re-enabling 
+             temperature compensation or simply by moving the focuser with compensation enabled if the hardware supports this.</para>
+             <para>Conform will continue to pass IFocuserV2 drivers that throw InvalidOperationException exceptions. However, Conform will now fail IFocuserV3 drivers that throw InvalidOperationException exceptions, in line with this revised specification.</para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Focuser.Position">
@@ -2034,15 +2141,20 @@
             know what the step size is.</exception>
         </member>
         <member name="P:ASCOM.DriverAccess.Focuser.TempComp">
-            <summary>
-            The state of temperature compensation mode (if available), else always False.
-            </summary>
-            <remarks>
-            If the <see cref="P:ASCOM.DriverAccess.Focuser.TempCompAvailable" /> property is True, then setting <see cref="P:ASCOM.DriverAccess.Focuser.TempComp" /> to True
-            puts the focuser into temperature tracking mode. While in temperature tracking mode,
-            <see cref="M:ASCOM.DriverAccess.Focuser.Move(System.Int32)">Move</see> commands will be rejected by the focuser. Set to False to turn off temperature tracking.
-            An exception will be raised if <see cref="P:ASCOM.DriverAccess.Focuser.TempCompAvailable" /> is False and an attempt is made to set <see cref="P:ASCOM.DriverAccess.Focuser.TempComp" /> to true.
-            </remarks>
+             <summary>
+             The state of temperature compensation mode (if available), else always False.
+             </summary>
+             <remarks>
+            <para>If the <see cref="P:ASCOM.DriverAccess.Focuser.TempCompAvailable" /> property is True, then setting <see cref="P:ASCOM.DriverAccess.Focuser.TempComp" /> to True puts the focuser into temperature tracking mode; setting it to False will turn off temperature tracking.
+             An exception will be raised if <see cref="P:ASCOM.DriverAccess.Focuser.TempCompAvailable" /> is False and an attempt is made to set <see cref="P:ASCOM.DriverAccess.Focuser.TempComp" /> to true.</para>
+             <para><b>BEHAVIOURAL CHANGE - Platform 6.4</b></para>
+             <para>Prior to Platform 6.4, the interface specification mandated that drivers must throw an <see cref="T:ASCOM.InvalidOperationException"/> if a move was attempted when <see cref="P:ASCOM.DriverAccess.Focuser.TempComp"/> was True, even if the focuser 
+             was able to execute the move safely without disrupting temperature compensation.</para>
+             <para>Following discussion on ASCOM-Talk in January 2018, the Focuser interface specification has been revised to IFocuserV3, removing the requrement to throw the InvalidOperationException exception. IFocuserV3 compliant drivers 
+             are expected to execute Move requests when temperature compensation is active and to hide any specific actions required by the hardware from the client. For example this could be achieved by disabling temperature compensation, moving the focuser and re-enabling 
+             temperature compensation or simply by moving the focuser with compensation enabled if the hardware supports this.</para>
+             <para>Conform will continue to pass IFocuserV2 drivers that throw InvalidOperationException exceptions. However, Conform will now fail IFocuserV3 drivers that throw InvalidOperationException exceptions, in line with this revised specification.</para>
+             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Focuser.TempCompAvailable">
             <summary>
@@ -2054,10 +2166,12 @@
         </member>
         <member name="P:ASCOM.DriverAccess.Focuser.Temperature">
             <summary>
-            Current ambient temperature as measured by the focuser.
+            Current ambient temperature in degrees Celsius as measured by the focuser.
             </summary>
-            <remarks>
-            Raises an exception if ambient temperature is not available. Commonly available on focusers with a built-in temperature compensation mode. 
+            <remarks><para>Raises an exception if ambient temperature is not available. Commonly available on focusers with a built-in temperature compensation mode.</para>
+            <para><b>Clarification - October 2019</b></para>
+            <para>Historically no units were specified for this property. Henceforth, if applications need to process the supplied temperature, they should proceed on the basis that the 
+            units are degrees Celsius for consistency with <see cref="P:ASCOM.DeviceInterface.IObservingConditions.Temperature"/>. Conversion to other temperature units can be achieved through the <see cref="M:ASCOM.Utilities.Util.ConvertUnits(System.Double,ASCOM.Utilities.Units,ASCOM.Utilities.Units)"/> utility method.</para>
             </remarks>
         </member>
         <member name="T:ASCOM.DriverAccess.MemberFactory">
@@ -2191,7 +2305,7 @@
             <p style="color:red"><b>Optional property, can throw a PropertyNotImplementedException when the <see cref="P:ASCOM.DriverAccess.ObservingConditions.Humidity"/> property also throws a PropertyNotImplementedException.</b></p>
             <p style="color:red"><b>Mandatory property, must NOT throw a PropertyNotImplementedException when the <see cref="P:ASCOM.DriverAccess.ObservingConditions.Humidity"/> property is implemented.</b></p>
             <para>The units of this property are degrees Celsius. Driver and application authors can use the <see cref="M:ASCOM.Utilities.Util.ConvertUnits(System.Double,ASCOM.Utilities.Units,ASCOM.Utilities.Units)"/> method
-            to convert these units to and from degrees Farenheit.</para>
+            to convert these units to and from degrees Fahrenheit.</para>
             <para>The ASCOM specification requires that DewPoint and Humidity are either both implemented or both throw PropertyNotImplementedExceptions. It is not allowed for 
             one to be implemented and the other to throw a PropertyNotImplementedException. The Utilities component contains methods (<see cref="M:ASCOM.Utilities.Util.DewPoint2Humidity(System.Double,System.Double)"/> and 
             <see cref="M:ASCOM.Utilities.Util.Humidity2DewPoint(System.Double,System.Double)"/>) to convert DewPoint to Humidity and vice versa given the ambient temperature.</para>
@@ -2314,7 +2428,7 @@
             <remarks>
             <p style="color:red"><b>Optional property, can throw a PropertyNotImplementedException</b></p>
             <para>The units of this property are degrees Celsius. Driver and application authors can use the <see cref="M:ASCOM.Utilities.Util.ConvertUnits(System.Double,ASCOM.Utilities.Units,ASCOM.Utilities.Units)"/> method
-            to convert these units to and from degrees Farenheit.</para>
+            to convert these units to and from degrees Fahrenheit.</para>
             <para>This is expected to be returned by an infra-red sensor looking at the sky. The lower the temperature the more the sky is likely to be clear.</para>
             </remarks>
         </member>
@@ -2328,7 +2442,7 @@
             <remarks>
             <p style="color:red"><b>Optional property, can throw a PropertyNotImplementedException</b></p>
             <para>The units of this property are degrees Celsius. Driver and application authors can use the <see cref="M:ASCOM.Utilities.Util.ConvertUnits(System.Double,ASCOM.Utilities.Units,ASCOM.Utilities.Units)"/> method
-            to convert these units to and from degrees Farenheit.</para>
+            to convert these units to and from degrees Fahrenheit.</para>
             <para>This is expected to be the ambient temperature at the observatory.</para>
             </remarks>
         </member>
@@ -2341,7 +2455,7 @@
             <exception cref="T:ASCOM.NotConnectedException">If the device is not connected.</exception>
             <remarks>
             <p style="color:red"><b>Optional property, can throw a PropertyNotImplementedException</b></p>
-            The returned value must be between 0.0 and 360.0, interpreted according to the metereological standard, where a special value of 0.0 is returned when the wind speed is 0.0. 
+            The returned value must be between 0.0 and 360.0, interpreted according to the meteorological standard, where a special value of 0.0 is returned when the wind speed is 0.0. 
             Wind direction is measured clockwise from north, through east, where East=90.0, South=180.0, West=270.0 and North=360.0.
             </remarks>
         </member>
@@ -2421,16 +2535,16 @@
         </member>
         <member name="M:ASCOM.DriverAccess.Rotator.#ctor(System.String)">
             <summary>
-            Creates a rotator object with the given Prog ID
+            Creates a rotator object with the given ProgID
             </summary>
             <param name="rotatorId">ProgID of the rotator to be accessed.</param>
         </member>
         <member name="M:ASCOM.DriverAccess.Rotator.Choose(System.String)">
             <summary>
-            Brings up the ASCOM Chooser Dialog to choose a Rotator
+            Brings up the ASCOM Chooser Dialogue to choose a Rotator
             </summary>
-            <param name="rotatorId">Rotator Prog ID for default or null for None</param>
-            <returns>Prog ID for chosen Rotator or null for none</returns>
+            <param name="rotatorId">Rotator ProgID for default or null for None</param>
+            <returns>ProgID for chosen Rotator or null for none</returns>
         </member>
         <member name="P:ASCOM.DriverAccess.Rotator.CanReverse">
             <summary>
@@ -2468,22 +2582,44 @@
             Causes the rotator to move the absolute position of <see cref="P:ASCOM.DriverAccess.Rotator.Position" /> degrees.
             </summary>
             <param name="Position">Absolute position in degrees.</param>
-            <remarks>Calling <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)">MoveAbsolute</see> causes the <see cref="P:ASCOM.DriverAccess.Rotator.TargetPosition" /> property to change to the value of the
-            <see cref="P:ASCOM.DriverAccess.Rotator.Position" /> parameter, then starts rotation to <see cref="P:ASCOM.DriverAccess.Rotator.TargetPosition" />. </remarks>
+            <exception cref="T:ASCOM.MethodNotImplementedException">If the method is not implemented.</exception>
+            <exception cref="T:ASCOM.InvalidValueException">If Position is invalid.</exception>
+            <remarks>
+            <para><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></para>
+            <para>
+            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.TrueString"/> this method will move the rotator to the requested <b>Synced</b> position.
+            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/> this method will move the rotator to the requested <b>Mechanical</b> position as it does in IRotatorV2. 
+            </para>
+            <para>
+            Calling <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/> causes the <see cref="P:ASCOM.DriverAccess.Rotator.TargetPosition" /> property to change to the value of the
+            <see cref="P:ASCOM.DriverAccess.Rotator.Position" /> parameter, then starts rotation to <see cref="P:ASCOM.DriverAccess.Rotator.TargetPosition" />. 
+            </para>
+            </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Rotator.Position">
             <summary>
-            Current instantaneous Rotator position, in degrees.
+            Current instantaneous Rotator position, allowing for any sync offset, in degrees.
             </summary>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">If the property is not implemented.</exception>
             <remarks>
-            The position is expressed as an angle from 0 up to but not including 360 degrees, counter-clockwise against the 
-            sky. This is the standard definition of Position Angle. However, the rotator does not need to (and in general will not) 
-            report the true Equatorial Position Angle, as the attached imager may not be precisely aligned with the rotator's indexing. 
-            It is up to the client to determine any offset between mechanical rotator position angle and the true Equatorial Position 
-            Angle of the imager, and compensate for any difference. 
-            <para>The optional <see cref="P:ASCOM.DriverAccess.Rotator.Reverse" /> property is provided in order to manage rotators being used on optics with odd or 
-            even number of reflections. With the Reverse switch in the correct position for the optics, the reported position angle must 
-            be counter-clockwise against the sky.</para>
+            <para><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></para>
+            <para>
+            When <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.TrueString"/>, Position reports the synced position rather than the mechanical position. The synced position is defined 
+            as the mechanical position plus an offset. The offset is determined when the <see cref="M:ASCOM.DriverAccess.Rotator.Sync(System.Single)"/> method is called and must be persisted across driver starts and device reboots.
+            </para>
+            <para>If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>, this property must return the same value as <see cref="P:ASCOM.DriverAccess.Rotator.MechanicalPosition"/>.</para>
+            <para>
+            The position is expressed as an angle from 0 up to but not including 360 degrees, counter-clockwise against the
+            sky. This is the standard definition of Position Angle. However, the rotator does not need to (and in general will not)
+            report the true Equatorial Position Angle, as the attached imager may not be precisely aligned with the rotator's indexing.
+            It is up to the client to determine any offset between mechanical rotator position angle and the true Equatorial Position
+            Angle of the imager, and compensate for any difference.
+            </para>
+            <para>
+            The optional <see cref="P:ASCOM.DriverAccess.Rotator.Reverse" /> property is provided in order to manage rotators being used on optics with odd or
+            even number of reflections. With the Reverse switch in the correct position for the optics, the reported position angle must
+            be counter-clockwise against the sky.
+            </para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Rotator.Reverse">
@@ -2512,6 +2648,50 @@
             changes to the position angle to which the rotator is moving. The value is retained until a subsequent call 
             to <see cref="M:ASCOM.DriverAccess.Rotator.Move(System.Single)">Move</see> or <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)">MoveAbsolute</see>.
             </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Rotator.CanSync">
+            <summary>
+            Reports <see cref="F:System.Boolean.TrueString"/> if the rotator and / or driver can perform a sync and <see cref="F:System.Boolean.FalseString"/> if it cannot.
+            </summary>
+            <remarks> This must be implemented and must not throw an exception.</remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Rotator.MechanicalPosition">
+            <summary>
+            This returns the raw mechanical position of the rotator.
+            </summary>
+            <remarks>
+            This must be implemented and returns the mechanical position of the rotator, which is equivalent to the IRotatorV2 <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property. Other clients (beyond the one that performed the sync) 
+            can calculate the current offset using this and the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> value. If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/> this property will return the same value as the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property.
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.Rotator.Sync(System.Single)">
+            <summary>
+            Syncs the rotator to the specified position angle without moving it. 
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>.</exception>
+            <param name="Position">Synchronised rotator position angle.</param>
+            <remarks>
+            Once this method has been called and the sync offset determined, both the <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/>> method and the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property must function in synced coordinates 
+            rather than mechanical coordinates. The sync offset must persist across driver starts and device reboots.
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.Rotator.MoveMechanical(System.Single)">
+            <summary>
+            Moves the rotator to the specified mechanical angle. 
+            </summary>
+            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>.</exception>
+            <param name="Position">Mechanical rotator position angle.</param>
+            <remarks>
+            <para>Moves the rotator to the requested mechanical angle, independent of any sync offset that may have been set. This method is to address requirements that require a physical rotation
+            angle such as when taking sky flats.</para>
+            <para>Client applications should use the <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/> method in preference to this method when imaging.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.DriverAccess.Rotator.GetInterfaceVersion">
+            <summary>
+            Returns the device's interface version, querying the device if the version isn't already known
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:ASCOM.DriverAccess.SafetyMonitor">
             <summary>
@@ -3218,29 +3398,25 @@
         </member>
         <member name="M:ASCOM.DriverAccess.Telescope.PulseGuide(ASCOM.DeviceInterface.GuideDirections,System.Int32)">
             <summary>
-            Moves the scope in the given direction for the given interval or time at 
-            the rate given by the corresponding guide rate property 
+            Moves the scope in the given direction for the given interval or time at
+            the rate given by the corresponding guide rate property
             </summary>
+            <param name="Direction">The direction in which the guide-rate motion is to be made</param>
+            <param name="Duration">The duration of the guide-rate motion (milliseconds)</param>
             <remarks>
-            This method returns immediately if the hardware is capable of back-to-back moves,
-            i.e. dual-axis moves. For hardware not having the dual-axis capability,
-            the method returns only after the move has completed. 
+            This method returns immediately if the hardware is capable of back-to-back moves e.g. dual-axis moves. For hardware not having dual-axis capability, the method returns only after the move has completed.
             <para>
             <b>NOTES:</b>
             <list type="bullet">
             <item><description>Raises an error if <see cref="P:ASCOM.DriverAccess.Telescope.AtPark" /> is true.</description></item>
-            <item><description>The <see cref="P:ASCOM.DriverAccess.Telescope.IsPulseGuiding" /> property must be be True during pulse-guiding.</description></item>
-            <item><description>The rate of motion for movements about the right ascension axis is 
-            specified by the <see cref="P:ASCOM.DriverAccess.Telescope.GuideRateRightAscension" /> property. The rate of motion
-            for movements about the declination axis is specified by the 
-            <see cref="P:ASCOM.DriverAccess.Telescope.GuideRateDeclination" /> property. These two rates may be tied together
-            into a single rate, depending on the driver's implementation
-            and the capabilities of the telescope.</description></item>
+            <item><description>The <see cref="P:ASCOM.DriverAccess.Telescope.IsPulseGuiding" /> property must be True during pulse-guiding.</description></item>
+            <item><description>The PulseGuide method may throw an <see cref="T:ASCOM.InvalidValueException" /> if called when an incompatible command is already underway e.g. a slew is in progress.</description></item>
+            <item><description>The rate of motion for movements about the right ascension axis is specified by the <see cref="P:ASCOM.DriverAccess.Telescope.GuideRateRightAscension" /> property. The rate of motion
+            for movements about the declination axis is specified by the <see cref="P:ASCOM.DriverAccess.Telescope.GuideRateDeclination" /> property. These two rates may be tied together into a single rate, depending
+            on the driver's implementation and the capabilities of the telescope.</description></item>
             </list>
             </para>
             </remarks>
-            <param name="Direction">The direction in which the guide-rate motion is to be made</param>
-            <param name="Duration">The duration of the guide-rate motion (milliseconds)</param>
         </member>
         <member name="P:ASCOM.DriverAccess.Telescope.RightAscension">
             <summary>

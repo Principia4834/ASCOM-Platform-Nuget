@@ -64,100 +64,6 @@
             <param name="ErrorCode">The COM error code to attach to this exception</param>
             <param name="InnerException">Any inner exception that is to be attached to the exception, or null if there is no inner exception</param>
         </member>
-        <member name="T:ASCOM.InvalidOperationException">
-             <summary>
-             This exception should be raised by the driver to reject a command from the client.
-             </summary>
-             <remarks>
-             <para>The exception is intended to be used for "logical" errors e.g. trying to use a command when the current configuration of the device does
-             not allow it rather than for device errors such as a communications error.</para>
-             <para>Its the error to use when the client attempts something, which at another time would be sensible,
-             but which is not sensible right now. If you expect the condition causing the issue to be short
-             lived, you may choose to stall the request until the condition is cleared rather than throwing this exception.
-             Clearly, that is a judgement that you can only make given a specific scenario.</para>
-             <para>If you need to throw this error as a COM exception use the error number: 0x8004040B.</para>
-            </remarks>
-        </member>
-        <member name="M:ASCOM.InvalidOperationException.#ctor">
-            <summary>
-            Default public constructor for NotConnectedException takes no parameters.
-            </summary>
-        </member>
-        <member name="M:ASCOM.InvalidOperationException.#ctor(System.Exception)">
-            <summary>
-            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
-            from another exception.
-            </summary>
-            <param name = "innerException">The inner exception.</param>
-        </member>
-        <member name="M:ASCOM.InvalidOperationException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
-            with a non-default error message.
-            </summary>
-            <param name = "message">A descriptive human-readable message.</param>
-        </member>
-        <member name="M:ASCOM.InvalidOperationException.#ctor(System.String,System.Exception)">
-            <summary>
-            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
-            based on another exception.
-            </summary>
-            <param name = "message">Descriptive text documenting the cause or source of the error.</param>
-            <param name = "innerException">The inner exception the led to the throwing of this exception.</param>
-        </member>
-        <member name="M:ASCOM.InvalidOperationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Added to keep Code Analysis happy
-            </summary>
-            <param name = "info"></param>
-            <param name = "context"></param>
-        </member>
-        <member name="T:ASCOM.MethodNotImplementedException">
-            <summary>
-            All methods defined by the relevant ASCOM standard interface must exist in each driver. However, those methods do not all have to be <i>implemented</i>. The minimum requirement
-            for each defined method is to throw the ASCOM.MethodNotImplementedException. Note that no default constructor is supplied. Throwing this requires the the method name.
-            </summary>
-            <remarks>
-            <para>If you need to throw this error as a COM exception use the error number: 0x80040400.</para>
-            </remarks>
-        </member>
-        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.String)">
-            <summary>
-            Create a new exception object and identify the specified driver method as the source.
-            </summary>
-            <param name = "method">The name of the driver method that caused the exception.</param>
-        </member>
-        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.String,System.Exception)">
-            <summary>
-            Create a new exception object and identify the specified driver method as the source,
-            and include an inner exception object containing a caught exception.
-            </summary>
-            <param name = "method">The name of the driver method that caused the exception</param>
-            <param name = "inner">The caught exception</param>
-        </member>
-        <member name="M:ASCOM.MethodNotImplementedException.#ctor">
-            <summary>
-            For Code Analysis, please don't use
-            </summary>
-        </member>
-        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ASCOM.MethodNotImplementedException"/> class.
-            </summary>
-            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
-            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
-            <exception cref="T:System.ArgumentNullException">
-            The <paramref name="info"/> parameter is null.
-            </exception>
-            <exception cref="T:System.Runtime.Serialization.SerializationException">
-            The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
-            </exception>
-        </member>
-        <member name="P:ASCOM.MethodNotImplementedException.Method">
-            <summary>
-            The method that is not implemented
-            </summary>
-        </member>
         <member name="T:ASCOM.DriverException">
             <summary>
               This is the generic driver exception. Drivers are permitted to directly throw this
@@ -326,6 +232,54 @@
             Drivers are free to choose their own numbers starting with DriverBase, up to and including DriverMax.
             </remarks>
         </member>
+        <member name="T:ASCOM.InvalidOperationException">
+             <summary>
+             This exception should be raised by the driver to reject a command from the client.
+             </summary>
+             <remarks>
+             <para>The exception is intended to be used for "logical" errors e.g. trying to use a command when the current configuration of the device does
+             not allow it rather than for device errors such as a communications error.</para>
+             <para>Its the error to use when the client attempts something, which at another time would be sensible,
+             but which is not sensible right now. If you expect the condition causing the issue to be short
+             lived, you may choose to stall the request until the condition is cleared rather than throwing this exception.
+             Clearly, that is a judgement that you can only make given a specific scenario.</para>
+             <para>If you need to throw this error as a COM exception use the error number: 0x8004040B.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.InvalidOperationException.#ctor">
+            <summary>
+            Default public constructor for NotConnectedException takes no parameters.
+            </summary>
+        </member>
+        <member name="M:ASCOM.InvalidOperationException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
+            from another exception.
+            </summary>
+            <param name = "innerException">The inner exception.</param>
+        </member>
+        <member name="M:ASCOM.InvalidOperationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
+            with a non-default error message.
+            </summary>
+            <param name = "message">A descriptive human-readable message.</param>
+        </member>
+        <member name="M:ASCOM.InvalidOperationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref = "T:ASCOM.InvalidOperationException" /> class
+            based on another exception.
+            </summary>
+            <param name = "message">Descriptive text documenting the cause or source of the error.</param>
+            <param name = "innerException">The inner exception the led to the throwing of this exception.</param>
+        </member>
+        <member name="M:ASCOM.InvalidOperationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Added to keep Code Analysis happy
+            </summary>
+            <param name = "info"></param>
+            <param name = "context"></param>
+        </member>
         <member name="T:ASCOM.InvalidValueException">
             <summary>
             Exception to report an invalid value supplied to a driver.
@@ -334,6 +288,15 @@
             <para>The most useful way to use this exception is to inform the user which property/method/parameter received the invalid value and also the range of allowed values.</para>
             <para>If you need to throw this error as a COM exception use the error number: 0x80040401.</para>
             </remarks>
+        </member>
+        <member name="M:ASCOM.InvalidValueException.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Create a new exception object and identify the specified driver property or method as the source.
+            </summary>
+            <param name = "propertyOrMethod">The name of the driver property/accessor or method that caused the exception</param>
+            <param name = "value">The invalid value that was supplied</param>
+            <param name="fromValue">Valid range lower bound</param>
+            <param name="toValue">Valid range upper bound</param>
         </member>
         <member name="M:ASCOM.InvalidValueException.#ctor(System.String,System.String,System.String)">
             <summary>
@@ -391,6 +354,62 @@
         <member name="P:ASCOM.InvalidValueException.Range">
             <summary>
             The valid range for this property.
+            </summary>
+        </member>
+        <member name="P:ASCOM.InvalidValueException.FromValue">
+            <summary>
+            The lower value of the valid range.
+            </summary>
+        </member>
+        <member name="P:ASCOM.InvalidValueException.ToValue">
+            <summary>
+            The higher end of the valid range.
+            </summary>
+        </member>
+        <member name="T:ASCOM.MethodNotImplementedException">
+            <summary>
+            All methods defined by the relevant ASCOM standard interface must exist in each driver. However, those methods do not all have to be <i>implemented</i>. The minimum requirement
+            for each defined method is to throw the ASCOM.MethodNotImplementedException. Note that no default constructor is supplied. Throwing this requires the the method name.
+            </summary>
+            <remarks>
+            <para>If you need to throw this error as a COM exception use the error number: 0x80040400.</para>
+            </remarks>
+        </member>
+        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.String)">
+            <summary>
+            Create a new exception object and identify the specified driver method as the source.
+            </summary>
+            <param name = "method">The name of the driver method that caused the exception.</param>
+        </member>
+        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Create a new exception object and identify the specified driver method as the source,
+            and include an inner exception object containing a caught exception.
+            </summary>
+            <param name = "method">The name of the driver method that caused the exception</param>
+            <param name = "inner">The caught exception</param>
+        </member>
+        <member name="M:ASCOM.MethodNotImplementedException.#ctor">
+            <summary>
+            For Code Analysis, please don't use
+            </summary>
+        </member>
+        <member name="M:ASCOM.MethodNotImplementedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ASCOM.MethodNotImplementedException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">
+            The <paramref name="info"/> parameter is null.
+            </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">
+            The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
+            </exception>
+        </member>
+        <member name="P:ASCOM.MethodNotImplementedException.Method">
+            <summary>
+            The method that is not implemented
             </summary>
         </member>
         <member name="T:ASCOM.NotConnectedException">
