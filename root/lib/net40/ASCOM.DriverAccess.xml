@@ -472,7 +472,7 @@
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.IsPulseGuiding">
             <summary>
-            Returns a flag indicating whether the camera is currrently in a <see cref="M:ASCOM.DriverAccess.Camera.PulseGuide(ASCOM.DeviceInterface.GuideDirections,System.Int32)">PulseGuide</see> operation.
+            Returns a flag indicating whether the camera is currently in a <see cref="M:ASCOM.DriverAccess.Camera.PulseGuide(ASCOM.DeviceInterface.GuideDirections,System.Int32)">PulseGuide</see> operation.
             </summary>
             <remarks>
             If True, pulse guiding is in progress. Required if the <see cref="M:ASCOM.DriverAccess.Camera.PulseGuide(ASCOM.DeviceInterface.GuideDirections,System.Int32)">PulseGuide</see> method
@@ -764,80 +764,102 @@
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.Gain">
-             <summary>
-             Index into the <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> array for the selected camera gain, Interface Version 2 only
-             </summary>
-             <value>Short integer index for the current camera gain in the <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> string array.</value>
-             <returns>Index into the Gains array for the selected camera gain</returns>
-             <exception cref="T:ASCOM.NotConnectedException">Must throw an exception if the information is not available. (Some drivers may require an 
-             active <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> in order to retrieve necessary information from the camera.)</exception>
-             <exception cref="T:ASCOM.InvalidValueException">Must throw an exception if not valid.</exception>
-             <exception cref="T:ASCOM.PropertyNotImplementedException">Must throw an exception if gain is not supported</exception>
-             <remarks>
-             <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> can be used to adjust the gain setting of the camera, if supported. There are two typical usage scenarios:
-             <ul>
-             <li>DSLR Cameras - <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> will return a 0-based array of strings, which correspond to different gain settings such as 
-             "ISO 800". <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> must be set to an integer in this range. <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> must thrown an exception if 
-             this mode is used.</li>
-             <li>Adjustable gain CCD cameras - <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> return integers, which specify the valid range for <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.Gain" />.</li>
-             </ul>
-            <para>The driver must default <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> to a valid value. </para>
-            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.ReadoutMode" /> may in some cases affect the gain of the camera; if so the driver must be written such 
-             that the two properties do not conflict if both are used.</para>
-             <para>This is only available for the Camera Interface Version 2</para>
-             </remarks>
+            <summary>
+            <p style="color:blue"><b>This is an existing ICameraV2 property and its interface definition has not been changed. The Remarks section has been clarified to describe the two gain management modes.</b></p>
+            The camera's gain (GAIN VALUE MODE) OR the index of the selected camera gain description in the <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> array (GAINS INDEX MODE)
+            </summary>
+            <returns><para><b> GAIN VALUE MODE:</b> The current gain value.</para>
+            <p style="color:red"><b>OR</b></p>
+            <b>GAINS INDEX MODE:</b> Index into the Gains array for the current camera gain
+            </returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When neither <b>GAINS INDEX</b> mode nor <b>GAIN VALUE</b> mode are supported.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <exception cref="T:ASCOM.InvalidValueException">When the supplied value is not valid.</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException if Gain is not supported by the camera.</b></p>
+            The <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> property is used to adjust the gain setting of the camera and has <b>two modes of operation</b>:
+            <ul>
+            <li><b>GAIN VALUE MODE</b> - The <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> property is a direct numeric representation of the camera's gain.
+            <ul>
+            <li>In this mode the <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> properties must return integers specifying the valid range for <see cref="P:ASCOM.DriverAccess.Camera.Gain" /></li>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.Gains"/> property must return a <see cref="T:ASCOM.PropertyNotImplementedException"/>.</li>
+            </ul>
+            </li>
+            <li><b>GAINS INDEX MODE</b> - The <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> property is the selected gain's index within the <see cref="P:ASCOM.DriverAccess.Camera.Gains"/> array of textual gain descriptions.
+            <ul>
+            <li>In this  mode the <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> method returns a 0-based array of strings, which describe available gain settings e.g. "ISO 200", "ISO 1600" </li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</li>
+            <li>Please note that the <see cref="P:ASCOM.DriverAccess.Camera.Gains"/> array is zero based.</li>
+            </ul>
+            </li>
+            </ul>
+            <para>A driver can support none, one or both gain modes depending on the camera's capabilities. However, only one mode can be active at any one moment because both modes share
+            the <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> property to return the gain value. Client applications can determine which mode is operational by reading the <see cref="P:ASCOM.DriverAccess.Camera.GainMin"/>, <see cref="P:ASCOM.DriverAccess.Camera.GainMax"/> and 
+            <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> properties. If a property can be read then its associated mode is active, if it throws a <see cref="T:ASCOM.PropertyNotImplementedException"/> then the mode is not active.</para>
+            <para>If a driver supports both modes the astronomer must be able to select the required mode through the driver Setup dialogue.</para>
+            <para>During driver initialisation the driver must set <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> to a valid value.</para>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.ReadoutMode" /> may in some cases affect the gain of the camera; if so, the driver must be ensure that the two properties do not conflict if both are used.</para>
+            <para>This is only available in Camera Interface Version 2 and later.</para>
+            </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.GainMax">
             <summary>
-            Maximum value of <see cref="P:ASCOM.DriverAccess.Camera.Gain" />, Interface Version 2 only
+            <p style="color:blue"><b>This is an existing ICameraV2 property and its interface definition has not been changed. The Remarks section has been clarified to describe the two gain management modes.</b></p>
+            Maximum <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> value of that this camera supports
             </summary>
-            <value>Short integer representing the maximum gain value supported by the camera.</value>
             <returns>The maximum gain value that this camera supports</returns>
-            <exception cref="T:ASCOM.NotConnectedException">Must throw an exception if the information is not available. (Some drivers may require an 
-            active <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> in order to retrieve necessary information from the camera.)</exception>
-            <exception cref="T:ASCOM.PropertyNotImplementedException">Must throw an exception if gainmax is not supported</exception>
-            <remarks>When specifying the gain setting with an integer value, <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> is used in conjunction with <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> to 
-            specify the range of valid settings.
-            <para><see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> shall be greater than <see cref="P:ASCOM.DriverAccess.Camera.GainMin" />. If either is available, then both must be available.</para>
-            <para>Please see <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> for more information.</para>
-            <para>It is recommended that this function be called only after a <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> is established with the camera hardware, to ensure 
-            that the driver is aware of the capabilities of the specific camera model.</para>
-            <para>This is only available for the Camera Interface Version 2</para>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> property is not implemented or is operating in <b>GAINS INDEX</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Gain">GAIN VALUE</see></b> mode:
+            <ul>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> must return the camera's highest valid <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> setting.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> must be equal to or greater than <see cref="P:ASCOM.DriverAccess.Camera.GainMin" />.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.Gains"/> must throw a <see cref="T:ASCOM.PropertyNotImplementedException"/></li>
+            </ul>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.GainMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax"/> act together and that either both must be implemented or both must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This property is only available in Camera Interface Version 2 and later.</para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.GainMin">
             <summary>
-            Minimum value of <see cref="P:ASCOM.DriverAccess.Camera.Gain" />, Interface Version 2 only
+            <p style="color:blue"><b>This is an existing ICameraV2 property and its interface definition has not been changed. The Remarks section has been clarified to describe the two gain management modes.</b></p>
+            Minimum <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> value of that this camera supports
             </summary>
             <returns>The minimum gain value that this camera supports</returns>
-            <exception cref="T:ASCOM.NotConnectedException">Must throw an exception if the information is not available. (Some drivers may require an 
-            active <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> in order to retrieve necessary information from the camera.)</exception>
-            <exception cref="T:ASCOM.PropertyNotImplementedException">Must throw an exception if gainmin is not supported</exception>
-            <remarks>When specifying the gain setting with an integer value, <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> is used in conjunction with <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> to 
-            specify the range of valid settings.
-            <para><see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> shall be greater than <see cref="P:ASCOM.DriverAccess.Camera.GainMin" />. If either is available, then both must be available.</para>
-            <para>Please see <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> for more information.</para>
-            <para>It is recommended that this function be called only after a <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> is established with the camera hardware, to ensure 
-            that the driver is aware of the capabilities of the specific camera model.</para>
-            <para>This is only available for the Camera Interface Version 2</para>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> property is is not implemented or is operating in <b>GAINS INDEX</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Gain">GAIN VALUE</see></b> mode:
+            <ul>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> must return the camera's lowest valid <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> setting.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> must be less than or equal to <see cref="P:ASCOM.DriverAccess.Camera.GainMax" />.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.Gains"/> must throw a <see cref="T:ASCOM.PropertyNotImplementedException"/></li>
+            </ul>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.GainMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax"/> act together and that either both must be implemented or both must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This property is only available in Camera Interface Version 2 and later.</para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.Gains">
             <summary>
-            Gains supported by the camera, Interface Version 2 only
+            <p style="color:blue"><b>This is an existing ICameraV2 property and its interface definition has not been changed. The Remarks section has been clarified to describe the two gain management modes.</b></p>
+            List of Gain names supported by the camera
             </summary>
-            <returns>An ArrayList of gain names </returns>
-            <exception cref="T:ASCOM.NotConnectedException">Must throw an exception if the information is not available. (Some drivers may require an 
-            active <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> in order to retrieve necessary information from the camera.)</exception>
-            <exception cref="T:ASCOM.PropertyNotImplementedException">Must throw an exception if gainmin is not supported</exception>
-            <remarks><see cref="P:ASCOM.DriverAccess.Camera.Gains" /> provides a 0-based array of available gain settings.  This is often used to specify ISO settings for DSLR cameras.  
-            Typically the application software will display the available gain settings in a drop list. The application will then supply 
-            the selected index to the driver via the <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> property. 
-            <para>The <see cref="P:ASCOM.DriverAccess.Camera.Gain" /> setting may alternatively be specified using integer values; if this mode is used then <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> is invalid 
-            and must throw an exception. Please see <see cref="P:ASCOM.DriverAccess.Camera.GainMax" /> and <see cref="P:ASCOM.DriverAccess.Camera.GainMin" /> for more information.</para>
-            <para>It is recommended that this function be called only after a <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> is established with the camera hardware, 
-            to ensure that the driver is aware of the capabilities of the specific camera model.</para>
-            <para>This is only available for the Camera Interface Version 2</para>
+            <returns>Thed list of supported gain names as an ArrayList of strings</returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> property is not implemented or is operating in <b>GAIN VALUE</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Gain">GAINS INDEX</see></b> mode:
+            <ul>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.Gains" /> property must return a zero-based ArrayList of available gain setting names.</li>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.GainMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.GainMax"/> properties must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</li>
+            </ul>
+            <para>The returned gain names could, for example, be a list of ISO settings for a DSLR camera or a list of gain names for a CMOS camera.
+            Typically the application software will display the returned gain names in a drop list, from which the astronomer can select the required value.
+            The application can then configure the required gain by setting the camera's <see cref="P:ASCOM.DriverAccess.Camera.Gain"/> property to the array index of the selected description.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This is only available in Camera Interface Version 2 and later.</para>
             </remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Camera.PercentCompleted">
@@ -1604,6 +1626,116 @@
              <para>It is recommended that this function be called only after a <see cref="P:ASCOM.DriverAccess.AscomDriver.Connected">connection</see> is established with the camera hardware, to ensure that 
              the driver is aware of the capabilities of the specific camera model.</para>
              </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Camera.Offset">
+            <summary>
+            <p style="color:limegreen"><b>This is a proposed ICameraV3 property.</b></p>
+            The camera's offset (OFFSET VALUE MODE) OR the index of the selected camera offset description in the <see cref="P:ASCOM.DriverAccess.Camera.Offsets" /> array (OFFSETS INDEX MODE)
+            </summary>
+            <returns><para><b> OFFSET VALUE MODE:</b> The current offset value.</para>
+            <p style="color:red"><b>OR</b></p>
+            <b>OFFSETS INDEX MODE:</b> Index into the Offsets array for the current camera offset
+            </returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When neither <b>OFFSETS INDEX</b> mode nor <b>OFFSET VALUE</b> mode are supported.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <exception cref="T:ASCOM.InvalidValueException">When the supplied value is not valid.</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException if Offset is not supported by the camera.</b></p>
+            The <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> property is used to adjust the offset setting of the camera and has <b>two modes of operation</b>:
+            <ul>
+            <li><b>OFFSET VALUE MODE</b> - The <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> property is a direct numeric representation of the camera's offset.
+            <ul>
+            <li>In this mode the <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax" /> properties must return integers specifying the valid range for <see cref="P:ASCOM.DriverAccess.Camera.Offset" /></li>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.Offsets"/> property must return a <see cref="T:ASCOM.PropertyNotImplementedException"/>.</li>
+            </ul>
+            </li>
+            <li><b>OFFSETS INDEX MODE</b> - The <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> property is the selected offset's index within the <see cref="P:ASCOM.DriverAccess.Camera.Offsets"/> array of textual offset descriptions.
+            <ul>
+            <li>In this  mode the <see cref="P:ASCOM.DriverAccess.Camera.Offsets" /> method returns a 0-based array of strings, which describe available offset settings e.g. "ISO 200", "ISO 1600" </li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.OffsetMin" /> and <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax" /> must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</li>
+            <li>Please note that the <see cref="P:ASCOM.DriverAccess.Camera.Offsets"/> array is zero based.</li>
+            </ul>
+            </li>
+            </ul>
+            <para>A driver can support none, one or both offset modes depending on the camera's capabilities. However, only one mode can be active at any one moment because both modes share
+            the <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> property to return the offset value. Client applications can determine which mode is operational by reading the <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin"/>, <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax"/> and 
+            <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> properties. If a property can be read then its associated mode is active, if it throws a <see cref="T:ASCOM.PropertyNotImplementedException"/> then the mode is not active.</para>
+            <para>If a driver supports both modes the astronomer must be able to select the required mode through the driver Setup dialogue.</para>
+            <para>During driver initialisation the driver must set <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> to a valid value.</para>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.ReadoutMode" /> may in some cases affect the offset of the camera; if so, the driver must be ensure that the two properties do not conflict if both are used.</para>
+            <para>This is only available in Camera Interface Version 2 and later.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Camera.OffsetMax">
+            <summary>
+            <p style="color:limegreen"><b>This is a proposed ICameraV3 property.</b></p>
+            Maximum <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> value of that this camera supports
+            </summary>
+            <returns>The maximum offset value that this camera supports</returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> property is not implemented or is operating in <b>OFFSETS INDEX</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Offset">OFFSET VALUE</see></b> mode:
+            <ul>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.OffsetMax" /> must return the camera's highest valid <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> setting.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.OffsetMax" /> must be equal to or greater than <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin" />.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.Offsets"/> must throw a <see cref="T:ASCOM.PropertyNotImplementedException"/></li>
+            </ul>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax"/> act together and that either both must be implemented or both must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This property is only available in Camera Interface Version 2 and later.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Camera.OffsetMin">
+            <summary>
+            <p style="color:limegreen"><b>This is a proposed ICameraV3 property.</b></p>
+            Minimum <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> value of that this camera supports
+            </summary>
+            <returns>The minimum offset value that this camera supports</returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> property is is not implemented or is operating in <b>OFFSETS INDEX</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Offset">OFFSET VALUE</see></b> mode:
+            <ul>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.OffsetMin" /> must return the camera's lowest valid <see cref="P:ASCOM.DriverAccess.Camera.Offset" /> setting.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.OffsetMin" /> must be less than or equal to <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax" />.</li>
+            <li><see cref="P:ASCOM.DriverAccess.Camera.Offsets"/> must throw a <see cref="T:ASCOM.PropertyNotImplementedException"/></li>
+            </ul>
+            <para>Please note that <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax"/> act together and that either both must be implemented or both must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This property is only available in Camera Interface Version 2 and later.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Camera.Offsets">
+            <summary>
+            <p style="color:limegreen"><b>This is a proposed ICameraV3 property.</b></p>
+            List of Offset names supported by the camera
+            </summary>
+            <returns>Thed list of supported offset names as an ArrayList of strings</returns>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> property is not implemented or is operating in <b>OFFSET VALUE</b> mode.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            When <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> is operating in <b><see cref="P:ASCOM.DriverAccess.Camera.Offset">OFFSETS INDEX</see></b> mode:
+            <ul>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.Offsets" /> property must return a zero-based ArrayList of available offset setting names.</li>
+            <li>The <see cref="P:ASCOM.DriverAccess.Camera.OffsetMin"/> and <see cref="P:ASCOM.DriverAccess.Camera.OffsetMax"/> properties must throw <see cref="T:ASCOM.PropertyNotImplementedException"/>s.</li>
+            </ul>
+            <para>The returned offset names could, for example, be a list of ISO settings for a DSLR camera or a list of offset names for a CMOS camera.
+            Typically the application software will display the returned offset names in a drop list, from which the astronomer can select the required value.
+            The application can then configure the required offset by setting the camera's <see cref="P:ASCOM.DriverAccess.Camera.Offset"/> property to the array index of the selected description.</para>
+            <para>It is recommended that this function be called only after a connection is established with the camera hardware to ensure that the driver is aware of the capabilities of the specific camera model.</para>
+            <para>This is only available in Camera Interface Version 2 and later.</para>
+            </remarks>
+        </member>
+        <member name="P:ASCOM.DriverAccess.Camera.SubExposureDuration">
+            <summary>
+            <p style="color:limegreen"><b>This is a proposed ICameraV3 property.</b></p>
+            Camera's sub-exposure interval
+            </summary>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">When the camera does not support sub exposure configuration.</exception>
+            <exception cref="T:ASCOM.NotConnectedException">When the information is not available. (Some drivers may require an active connection in order to retrieve necessary information from the camera.)</exception>
+            <exception cref="T:ASCOM.InvalidValueException">When the supplied value is not valid.</exception>
+            <remarks><p style="color:red"><b>This is an optional property and can throw a PropertyNotImplementedException.</b></p>
+            </remarks>
         </member>
         <member name="T:ASCOM.DriverAccess.CoverCalibrator">
             <summary>
@@ -2553,6 +2685,9 @@
             <returns>
             True if the Rotator supports the <see cref="P:ASCOM.DriverAccess.Rotator.Reverse" /> method.
             </returns>
+            <remarks>
+            <p style="color:red;margin-bottom:0"><b>Must be implemented.</b></p>
+            </remarks>
         </member>
         <member name="M:ASCOM.DriverAccess.Rotator.Halt">
             <summary>
@@ -2585,10 +2720,10 @@
             <exception cref="T:ASCOM.MethodNotImplementedException">If the method is not implemented.</exception>
             <exception cref="T:ASCOM.InvalidValueException">If Position is invalid.</exception>
             <remarks>
-            <para><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></para>
+            <p style="color:red"><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></p>
             <para>
-            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.TrueString"/> this method will move the rotator to the requested <b>Synced</b> position.
-            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/> this method will move the rotator to the requested <b>Mechanical</b> position as it does in IRotatorV2. 
+            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is True this method will move the rotator to the requested <b>Synced</b> position.
+            If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is False this method will move the rotator to the requested <b>Mechanical</b> position as it does in IRotatorV2. 
             </para>
             <para>
             Calling <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/> causes the <see cref="P:ASCOM.DriverAccess.Rotator.TargetPosition" /> property to change to the value of the
@@ -2601,13 +2736,17 @@
             Current instantaneous Rotator position, allowing for any sync offset, in degrees.
             </summary>
             <exception cref="T:ASCOM.PropertyNotImplementedException">If the property is not implemented.</exception>
+            <summary>
+            Current instantaneous Rotator position, allowing for any sync offset, in degrees.
+            </summary>
+            <exception cref="T:ASCOM.PropertyNotImplementedException">If the property is not implemented.</exception>
             <remarks>
-            <para><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></para>
+            <p style="color:red"><b>SPECIFICATION REVISION - IRotatorV3 - Platform 6.5</b></p>
             <para>
-            When <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.TrueString"/>, Position reports the synced position rather than the mechanical position. The synced position is defined 
+            When <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is True, Position reports the synced position rather than the mechanical position. The synced position is defined 
             as the mechanical position plus an offset. The offset is determined when the <see cref="M:ASCOM.DriverAccess.Rotator.Sync(System.Single)"/> method is called and must be persisted across driver starts and device reboots.
             </para>
-            <para>If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>, this property must return the same value as <see cref="P:ASCOM.DriverAccess.Rotator.MechanicalPosition"/>.</para>
+            <para>If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is False, this property must return the same value as <see cref="P:ASCOM.DriverAccess.Rotator.MechanicalPosition"/>.</para>
             <para>
             The position is expressed as an angle from 0 up to but not including 360 degrees, counter-clockwise against the
             sky. This is the standard definition of Position Angle. However, the rotator does not need to (and in general will not)
@@ -2651,26 +2790,27 @@
         </member>
         <member name="P:ASCOM.DriverAccess.Rotator.CanSync">
             <summary>
-            Reports <see cref="F:System.Boolean.TrueString"/> if the rotator and / or driver can perform a sync and <see cref="F:System.Boolean.FalseString"/> if it cannot.
+            Reports True if the rotator and / or driver can perform a sync and False if it cannot.
             </summary>
-            <remarks> This must be implemented and must not throw an exception.</remarks>
+            <remarks><p style="color:red"><b>Must be implemented</b></p></remarks>
         </member>
         <member name="P:ASCOM.DriverAccess.Rotator.MechanicalPosition">
             <summary>
             This returns the raw mechanical position of the rotator.
             </summary>
             <remarks>
-            This must be implemented and returns the mechanical position of the rotator, which is equivalent to the IRotatorV2 <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property. Other clients (beyond the one that performed the sync) 
-            can calculate the current offset using this and the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> value. If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/> this property will return the same value as the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property.
+            <p style="color:red"><b>Must be implemented</b></p>Returns the mechanical position of the rotator, which is equivalent to the IRotatorV2 <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property. Other clients (beyond the one that performed the sync) 
+            can calculate the current offset using this and the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> value. If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is False this property will return the same value as the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property.
             </remarks>
         </member>
         <member name="M:ASCOM.DriverAccess.Rotator.Sync(System.Single)">
             <summary>
             Syncs the rotator to the specified position angle without moving it. 
             </summary>
-            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>.</exception>
+            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is False.</exception>
             <param name="Position">Synchronised rotator position angle.</param>
             <remarks>
+            <p style="color:red"><b>Must be implemented if <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is True.</b></p>
             Once this method has been called and the sync offset determined, both the <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/>> method and the <see cref="P:ASCOM.DriverAccess.Rotator.Position"/> property must function in synced coordinates 
             rather than mechanical coordinates. The sync offset must persist across driver starts and device reboots.
             </remarks>
@@ -2679,11 +2819,12 @@
             <summary>
             Moves the rotator to the specified mechanical angle. 
             </summary>
-            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is <see cref="F:System.Boolean.FalseString"/>.</exception>
+            <exception cref="T:ASCOM.MethodNotImplementedException">If <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is False.</exception>
             <param name="Position">Mechanical rotator position angle.</param>
             <remarks>
-            <para>Moves the rotator to the requested mechanical angle, independent of any sync offset that may have been set. This method is to address requirements that require a physical rotation
-            angle such as when taking sky flats.</para>
+            <p style="color:red"><b>Must be implemented if <see cref="P:ASCOM.DriverAccess.Rotator.CanSync"/> is True.</b></p>
+            <para>Moves the rotator to the requested mechanical angle, independent of any sync offset that may have been set. This method is to address requirements that need a physical rotation
+            angle such as taking sky flats.</para>
             <para>Client applications should use the <see cref="M:ASCOM.DriverAccess.Rotator.MoveAbsolute(System.Single)"/> method in preference to this method when imaging.</para>
             </remarks>
         </member>

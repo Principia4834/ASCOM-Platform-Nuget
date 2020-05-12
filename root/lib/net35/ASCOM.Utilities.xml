@@ -32,6 +32,368 @@ ASCOM.Utilities
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="T:ASCOM.Utilities.AlpacaDeviceDescription">
+ <summary>
+ Description of an Alpaca device that is is discovered by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDeviceDescription.#ctor">
+ <summary>
+ Class initialiser
+ </summary>
+ <remarks>COM clients should use this initialiser and set the properties individually because COM only supports parameterless initialisers.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDeviceDescription.#ctor(System.String,System.String,System.String,System.String)">
+ <summary>
+ Class initialiser that sets all properties in one call
+ </summary>
+ <param name="serverName">The Alpaca device's configured name</param>
+ <param name="manufacturer">The device manufacturer's name</param>
+ <param name="manufacturerVersion">The device's version as set by the manufacturer</param>
+ <param name="location">The Alpaca device's configured location</param>
+ <param name="alpacaUniqueId"></param>
+ <remarks>This can only be used by .NET clients because COM only supports parameterless initialisers.</remarks>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDeviceDescription.ServerName">
+ <summary>
+ The Alpaca device's configured name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDeviceDescription.Manufacturer">
+ <summary>
+ The device manufacturer's name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDeviceDescription.ManufacturerVersion">
+ <summary>
+ The device's version as set by the manufacturer
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDeviceDescription.Location">
+ <summary>
+ The Alpaca device's configured location
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:ASCOM.Utilities.AlpacaDevice">
+ <summary>
+ Overall description of an Alpaca device that supports discovery as returned by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDevice.#ctor">
+ <summary>
+ Initialises the class with default values
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.HostName">
+ <summary>
+ The Alpaca device's DNS host name, if available, otherwise its IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.IpAddress">
+ <summary>
+ The Alpaca device's IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.Port">
+ <summary>
+ Alpaca device's IP port number
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.ConfiguredDevicesAsArrayList">
+ <summary>
+ List of ASCOM devices available on this Alpaca device as an ArrayList for COM clients
+ </summary>
+ <remarks>
+ This method is primarily to support COM clients because COM does not support generic lists. .NET clients should use the <see cref="P:ASCOM.Utilities.AlpacaDevice.ConfiguredDevices"/> property instead.
+ </remarks>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.SupportedInterfaceVersions">
+ <summary>
+ Array of supported Alpaca interface version numbers
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.ServerName">
+ <summary>
+ The Alpaca device's configured name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.Manufacturer">
+ <summary>
+ The device manufacturer's name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.ManufacturerVersion">
+ <summary>
+ The device's version as set by the manufacturer
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.Location">
+ <summary>
+ The Alpaca device's configured location
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.ConfiguredDevices">
+ <summary>
+ List of ASCOM devices available on this Alpaca device
+ </summary>
+ <remarks>
+ This method can only be used by .NET clients. COM clients should use the <see cref="P:ASCOM.Utilities.AlpacaDevice.ConfiguredDevicesAsArrayList"/> property.
+ </remarks>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.StatusMessage">
+ <summary>
+ Alpaca device's status message
+ </summary>
+ <remarks>This should be an empty string in normal operation when there are no issues but should be changed to an error message when an issue occurs.</remarks>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDevice.IPEndPoint">
+ <summary>
+ Alpaca device's IP endpoint
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.AlpacaDiscovery">
+ <summary>
+ Enables clients to discover Alpaca devices by sending one or more discovery polls. Returns information on discovered Alpaca devices and the ASCOM devices that are available.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.#ctor">
+ <summary>
+ Initialise the Alpaca discovery component
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.Dispose">
+ <summary>
+ Disposes of the discovery component and cleans up resources
+ </summary>
+</member>
+<member name="E:ASCOM.Utilities.AlpacaDiscovery.AlpacaDevicesUpdated">
+ <summary>
+ Raised every time information about discovered devices is updated
+ </summary>
+ <remarks>This event is only available to .NET clients, there is no equivalent for COM clients.</remarks>
+</member>
+<member name="E:ASCOM.Utilities.AlpacaDiscovery.DiscoveryCompleted">
+ <summary>
+ Raised when the discovery is complete
+ </summary>
+ <remarks>This event is only available to .NET clients. COM clients should poll the <see cref="P:ASCOM.Utilities.AlpacaDiscovery.DiscoveryComplete"/> property periodically to determine when discovery is complete.</remarks>
+</member>
+<member name="P:ASCOM.Utilities.AlpacaDiscovery.DiscoveryComplete">
+ <summary>
+ Flag that indicates when a discovery cycle is complete
+ </summary>
+ <returns>True when discovery is complete.</returns>
+ <remarks>The discovery is considered complete when the time period specified on the <see cref="M:ASCOM.Utilities.AlpacaDiscovery.StartDiscovery(System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean)"/> method is exceeded.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevicesAsArrayList">
+ <summary>
+ Returns an ArrayList of discovered Alpaca devices for use by COM clients
+ </summary>
+ <returns>ArrayList of <see cref="T:ASCOM.Utilities.AlpacaDevice"/>classes</returns>
+ <remarks>This method is for use by COM clients because it is not possible to pass a generic list as used in <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevices"/> through a COM interface. 
+ .NET clients should use <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevices"/> instead of this method.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevicesAsArrayList(System.String)">
+ <summary>
+ Returns an ArrayList of discovered ASCOM devices, of the specified device type, for use by COM clients
+ </summary>
+ <param name="deviceType">The device type for which to search e.g. Telescope, Focuser. An empty string will return devices of all types.</param>
+ <returns>ArrayList of <see cref="T:ASCOM.Utilities.AscomDevice"/>classes</returns>
+ <remarks>
+ <para>
+ This method is for use by COM clients because it is not possible to return a generic list, as used in <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevices(System.String)"/>, through a COM interface. 
+ .NET clients should use <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevices(System.String)"/> instead of this method.
+ </para>
+ <para>
+ This method will return every discovered device, regardless of device type, if the supplied "deviceType" parameter is an empty string.
+ </para>
+ </remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevices">
+ <summary>
+ Returns a generic List of discovered Alpaca devices.
+ </summary>
+ <returns>List of <see cref="T:ASCOM.Utilities.AlpacaDevice"/>classes</returns>
+ <remarks>This method is only available to .NET clients because COM cannot handle generic types. COM clients should use <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevicesAsArrayList"/>.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevices(System.String)">
+ <summary>
+ Returns a generic list of discovered ASCOM devices of the specified device type.
+ </summary>
+ <param name="deviceType">The device type for which to search e.g. Telescope, Focuser. An empty string will return devices of all types.</param>
+ <returns>List of AscomDevice classes</returns>
+ <remarks>
+ <para>
+ This method is only available to .NET clients because COM cannot handle generic types. COM clients should use <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevicesAsArrayList"/>.
+ </para>
+ <para>
+ This method will return every discovered device, regardless of device type, if the supplied "deviceType" parameter is an empty string.
+ </para>
+ </remarks>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.StartDiscovery(System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean)">
+ <summary>
+ Start an Alpaca device discovery based on the supplied parameters
+ </summary>
+ <param name="numberOfPolls">Number of polls to send in the range 1 to 5</param>
+ <param name="pollInterval">Interval between each poll in the range 10 to 5000 milliseconds</param>
+ <param name="discoveryPort">Discovery port on which to send the broadcast (normally 32227) in the range 1025 to 65535</param>
+ <param name="discoveryDuration">Length of time (seconds) to wait for devices to respond</param>
+ <param name="resolveDnsName">Attempt to resolve host IP addresses to DNS names</param>
+ <param name="useIpV4">Search for Alpaca devices that use IPv4 addresses. (One or both of useIpV4 and useIpV6 must be True.)</param>
+ <param name="useIpV6">Search for Alpaca devices that use IPv6 addresses. (One or both of useIpV4 and useIpV6 must be True.)</param>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetHostEntryCallback(System.IAsyncResult)">
+ <summary>
+ Record the IPs in the state object for later use.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AlpacaDiscovery.GetRequest(System.String,System.Int32)">
+ <summary>
+ Call a device URL and return the response as a string, timing out after a specified time
+ </summary>
+ <param name="deviceUrl">Device's URL to call</param>
+ <param name="timeOut">Length of time to wait for a response</param>
+ <returns>Device response as a string</returns>
+</member>
+<member name="T:ASCOM.Utilities.AscomDevice">
+ <summary>
+ Description of an ASCOM device that is served by an Alpaca device that is discovered by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.AscomDevice.#ctor">
+ <summary>
+ Initialises the class with default values
+ </summary>
+ <remarks>COM clients should use this initialiser and set the properties individually because COM only supports parameterless initialisers.</remarks>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.AscomDeviceName">
+ <summary>
+ ASCOM device name
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.AscomDeviceType">
+ <summary>
+ ASCOM device type
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.AlpacaDeviceNumber">
+ <summary>
+ Alpaca API device number
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.UniqueId">
+ <summary>
+ ASCOM device unique ID
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.HostName">
+ <summary>
+ The ASCOM device's DNS host name, if available, otherwise its IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.IpAddress">
+ <summary>
+ The ASCOM device's IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.InterfaceVersion">
+ <summary>
+ Supported Alpaca interface version
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.StatusMessage">
+ <summary>
+ Alpaca device status message
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.AscomDevice.IPEndPoint">
+ <summary>
+ Alpaca device IP endpoint
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.ConfiguredDevice">
+ <summary>
+ Description of a single ASCOM device as returned within the <see cref="T:ASCOM.Utilities.AlpacaDevice"/> class.
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.ConfiguredDevice.#ctor">
+ <summary>
+ Initialises the class with default values
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.ConfiguredDevice.DeviceName">
+ <summary>
+ ASCOM device name
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.ConfiguredDevice.DeviceType">
+ <summary>
+ ASCOM device type
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.ConfiguredDevice.DeviceNumber">
+ <summary>
+ Device number used to access the device through the Alpaca API
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.ConfiguredDevice.UniqueID">
+ <summary>
+ ASCOM device unique ID
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.DnsResponse">
+ <summary>
+ Define the state object for the callback. 
+ Use hostName to correlate calls with the proper result.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Finder.CachedEndpoints">
+ <summary>
+ A cache of all endpoints found by the server
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Finder.Search(System.Int32,System.Boolean,System.Boolean)">
+ <summary>
+ Resends the search request
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Finder.ClearCache">
+ <summary>
+ Clears the cached IP Endpoints in CachedEndpoints
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Finder.SendDiscoveryMessageIpV6(System.Int32)">
+ <summary>
+ Send out discovery message on the IPv6 multicast group
+ This dual targets NetStandard 2.0 and NetFX 3.5 so no Async Await
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Finder.FinderDiscoveryCallback(System.IAsyncResult)">
+ <summary>
+ This callback is shared between IPv4 and IPv6
+ </summary>
+ <param name="ar"></param>
+</member>
+<member name="M:ASCOM.Utilities.RestResponseBase.ShouldSerializeDriverException">
+ <summary>
+ Method used by NewtonSoft JSON to determine whether the DriverException field should be included in the serialise JSON response.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.RestResponseBase.SerializeDriverException">
+ <summary>
+ Control variable that determines whether the DriverException field will be included in serialised JSON responses
+ </summary>
+</member>
 <member name="T:ASCOM.Utilities.ASCOMProfile">
  <summary>
  Class that represents a whole device Profile and which contains a set of methods for for manipulating its contents
@@ -679,6 +1041,225 @@ ASCOM.Utilities
  <param name="info">Serialisation information</param>
  <param name="context">Serialisation context</param>
  <remarks></remarks>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAlpacaDevice">
+ <summary>
+ Methods visible to both COM and .NET clients
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.HostName">
+ <summary>
+ The Alpaca device's DNS host name, if available, otherwise its IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.IpAddress">
+ <summary>
+ The Alpaca device's IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.Port">
+ <summary>
+ Alpaca device's IP port number
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.ConfiguredDevicesAsArrayList">
+ <summary>
+ Array of ASCOM devices available on this Alpaca device
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.SupportedInterfaceVersions">
+ <summary>
+ Array of supported Alpaca interface version numbers
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.ServerName">
+ <summary>
+ The Alpaca device's configured name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.Manufacturer">
+ <summary>
+ The device manufacturer's name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.ManufacturerVersion">
+ <summary>
+ The device's version as set by the manufacturer
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDevice.Location">
+ <summary>
+ The Alpaca device's configured location
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAlpacaDeviceExtra">
+ <summary>
+ Methods only visible to .NET clients
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAlpacaDeviceExtra.ConfiguredDevices">
+ <summary>
+ Array of ASCOM devices available on this Alpaca device
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAscomDevice">
+ <summary>
+ Methods visible to both COM and .NET clients
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.AscomDeviceName">
+ <summary>
+ The ASCOM device's name
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.AscomDeviceType">
+ <summary>
+ The ASCOM device's device type
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.AlpacaDeviceNumber">
+ <summary>
+ The device's Alpaca API device number
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.UniqueId">
+ <summary>
+ ASCOM device unique ID
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.HostName">
+ <summary>
+ The ASCOM device's DNS host name, if available, otherwise its IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.IpAddress">
+ <summary>
+ The ASCOM device's IP address. IPv6 addresses will be in canonical form.
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.InterfaceVersion">
+ <summary>
+ SUpported Alpaca interface version
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IAscomDevice.StatusMessage">
+ <summary>
+ Alpaca device status message
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAscomDeviceExtra">
+ <summary>
+ Methods only visible to .NET clients
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IConfiguredDevice">
+ <summary>
+ Methods visible to both COM and .NET clients
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IConfiguredDevice.DeviceName">
+ <summary>
+ ASCOM device name
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IConfiguredDevice.DeviceType">
+ <summary>
+ ASCOM device type
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IConfiguredDevice.DeviceNumber">
+ <summary>
+ Device number used to access the device through the Alpaca API
+ </summary>
+</member>
+<member name="P:ASCOM.Utilities.Interfaces.IConfiguredDevice.UniqueID">
+ <summary>
+ ASCOM device unique ID
+ </summary>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAlpacaDiscovery">
+ <summary>
+ Methods visible to both COM and .NET clients
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Interfaces.IAlpacaDiscovery.GetAlpacaDevicesAsArrayList">
+ <summary>
+ Returns an ArrayList of discovered Alpaca devices for use by COM clients
+ </summary>
+ <returns>ArrayList of <see cref="T:ASCOM.Utilities.AlpacaDevice"/>classes</returns>
+ <remarks>This method is for use by COM clients because it is not possible to pass a generic list as used in <see cref="!:GetAlpacaDevices"/> through a COM interface. 
+ .NET clients should use <see cref="!:GetAlpacaDevices()"/> instead of this method.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.Interfaces.IAlpacaDiscovery.GetAscomDevicesAsArrayList(System.String)">
+ <summary>
+ Returns an ArrayList of discovered ASCOM devices, of the specified device type, for use by COM clients
+ </summary>
+ <param name="deviceType">The device type for which to search e.g. Telescope, Focuser. An empty string will return devices of all types.</param>
+ <returns>ArrayList of <see cref="T:ASCOM.Utilities.AscomDevice"/>classes</returns>
+ <remarks>
+ <para>
+ This method is for use by COM clients because it is not possible to return a generic list, as used in <see cref="!:GetAscomDevices(String)"/>, through a COM interface. 
+ .NET clients should use <see cref="!:GetAscomDevices(String)"/> instead of this method.
+ </para>
+ <para>
+ This method will return every discovered device, regardless of device type, if the supplied "deviceType" parameter is an empty string.
+ </para>
+ </remarks>
+</member>
+<member name="M:ASCOM.Utilities.Interfaces.IAlpacaDiscovery.StartDiscovery(System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean)">
+ <summary>
+ Start an Alpaca device discovery based on the supplied parameters
+ </summary>
+ <param name="numberOfPolls">Number of polls to send in the range 1 to 5</param>
+ <param name="pollInterval">Interval between each poll in the range 10 to 5000 milliseconds</param>
+ <param name="discoveryPort">Discovery port on which to send the broadcast (normally 32227) in the range 1025 to 65535</param>
+ <param name="discoveryDuration">Length of time (seconds) to wait for devices to respond</param>
+ <param name="resolveDnsName">Attempt to resolve host IP addresses to DNS names</param>
+ <param name="useIpV4">Search for Alpaca devices that use IPv4 addresses. (One or both of useIpV4 and useIpV6 must be True.)</param>
+ <param name="useIpV6">Search for Alpaca devices that use IPv6 addresses. (One or both of useIpV4 and useIpV6 must be True.)</param>
+</member>
+<member name="T:ASCOM.Utilities.Interfaces.IAlpacaDiscoveryExtra">
+ <summary>
+ Methods only visible to .NET clients
+ </summary>
+</member>
+<member name="M:ASCOM.Utilities.Interfaces.IAlpacaDiscoveryExtra.GetAlpacaDevices">
+ <summary>
+ Returns a generic List of discovered Alpaca devices.
+ </summary>
+ <returns>List of <see cref="T:ASCOM.Utilities.AlpacaDevice"/>classes</returns>
+ <remarks>This method is only available to .NET clients because COM cannot handle generic types. COM clients should use <see cref="!:GetAlpacaDevicesAsArrayList()"/>.</remarks>
+</member>
+<member name="M:ASCOM.Utilities.Interfaces.IAlpacaDiscoveryExtra.GetAscomDevices(System.String)">
+ <summary>
+ Returns a generic list of discovered ASCOM devices of the specified device type.
+ </summary>
+ <param name="deviceType">The device type for which to search e.g. Telescope, Focuser. An empty string will return devices of all types.</param>
+ <returns>List of AscomDevice classes</returns>
+ <remarks>
+ <para>
+ This method is only available to .NET clients because COM cannot handle generic types. COM clients should use <see cref="!:GetAscomDevicesAsArrayList(String)()"/>.
+ </para>
+ <para>
+ This method will return every discovered device, regardless of device type, if the supplied "deviceType" parameter is an empty string.
+ </para>
+ </remarks>
+</member>
+<member name="E:ASCOM.Utilities.Interfaces.IAlpacaDiscoveryExtra.AlpacaDevicesUpdated">
+ <summary>
+ Raised every time information about discovered devices is updated
+ </summary>
+ <remarks>This event is only available to .NET clients, there is no equivalent for COM clients.</remarks>
+</member>
+<member name="E:ASCOM.Utilities.Interfaces.IAlpacaDiscoveryExtra.DiscoveryCompleted">
+ <summary>
+ Raised when the discovery is complete
+ </summary>
+ <remarks>This event is only available to .NET clients. COM clients should poll the <see cref="!:DiscoveryComplete"/> property periodically to determine when discovery is complete.</remarks>
 </member>
 <member name="T:ASCOM.Utilities.Interfaces.IKeyValuePair">
  <summary>
