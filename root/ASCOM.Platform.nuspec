@@ -10,7 +10,18 @@
         <projectUrl>https://github.com/Tigra-Astronomy/ASCOM-Platform-Nuget</projectUrl>
         <icon>assets/ASCOM.Platform.Nuget.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package. Useful when you need to build a project on a computer where you can't or prefer not to install the ASCOM Platform, e.g. on a build server or build agent. On a machine with the ASCOM Platform installed, these assemblies will be present in the Global Assembly Cache, therefore, do not redistribute these files with your application. The assemblies contained in this package are extracted from the ASCOM Platform Developer Tools and are the intellectual property of The ASCOM Initiative, see http://ascom-standards.org/</description>
+        <description>
+            The runtime assemblies from the ASCOM Platform, conveniently
+            bundled as a NuGet package. Useful when you need to build a
+            project on a computer where you can't or prefer not to install
+            the ASCOM Platform, e.g. on a build server or build agent. On
+            a machine with the ASCOM Platform installed, these assemblies
+            will be present in the Global Assembly Cache, therefore, do not
+            redistribute these files with your application. The assemblies
+            contained in this package are extracted from the ASCOM Platform
+            Developer Tools and are the intellectual property of The ASCOM
+            Initiative, see http://ascom-standards.org/
+        </description>
         <summary>The runtime assemblies from the ASCOM Platform, conveniently bundled as a NuGet package.</summary>
         <releaseNotes>Contains binaries from ASCOM Platform 6.3</releaseNotes>
         <copyright>Copyright © 2010-2020 Tigra Astronomy, all rights reserved</copyright>
