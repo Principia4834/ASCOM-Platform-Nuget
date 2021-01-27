@@ -34,8 +34,9 @@ ASCOM.Utilities
 </member>
 <member name="T:ASCOM.Utilities.AlpacaDeviceDescription">
  <summary>
- Description of an Alpaca device that is is discovered by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
+ Description of an Alpaca device that is discovered by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
  </summary>
+ <remarks>This class is used in JSON de-serialisation </remarks>
 </member>
 <member name="M:ASCOM.Utilities.AlpacaDeviceDescription.#ctor">
  <summary>
@@ -79,7 +80,7 @@ ASCOM.Utilities
 </member>
 <member name="T:ASCOM.Utilities.AlpacaDevice">
  <summary>
- Overall description of an Alpaca device that supports discovery as returned by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/>component.
+ Data object describing an Alpaca device that supports discovery as returned by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
  </summary>
 </member>
 <member name="M:ASCOM.Utilities.AlpacaDevice.#ctor">
@@ -167,8 +168,23 @@ ASCOM.Utilities
 </member>
 <member name="T:ASCOM.Utilities.AlpacaDiscovery">
  <summary>
- Enables clients to discover Alpaca devices by sending one or more discovery polls. Returns information on discovered Alpaca devices and the ASCOM devices that are available.
+ Enables clients to discover Alpaca devices by sending one or more discovery polls. Returns information on discovered <see cref="T:ASCOM.Utilities.AlpacaDevice">Alpaca devices</see> and the <see cref="T:ASCOM.Utilities.AscomDevice">ASCOM devices</see> that are available.
  </summary>
+ <remarks>
+ <para>
+ The discovery process is asynchronous and is initiated by the <see cref="M:ASCOM.Utilities.AlpacaDiscovery.StartDiscovery(System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean)"/> method. Clients can then either work synchronously by looping and periodically 
+ polling the <see cref="P:ASCOM.Utilities.AlpacaDiscovery.DiscoveryComplete"/> property or work asynchronously by handling the <see cref="E:ASCOM.Utilities.AlpacaDiscovery.AlpacaDevicesUpdated"/> and <see cref="E:ASCOM.Utilities.AlpacaDiscovery.DiscoveryCompleted"/> events while doing other work.
+ </para>
+ <para>
+ The <see cref="M:ASCOM.Utilities.AlpacaDiscovery.StartDiscovery(System.Int32,System.Int32,System.Int32,System.Double,System.Boolean,System.Boolean,System.Boolean)"/> method is used to set the character of the discovery e.g. the discovery duration and whether to search for IPv4 and/or IPv6 devices. 
+ After the specified discovery duration, the <see cref="P:ASCOM.Utilities.AlpacaDiscovery.DiscoveryComplete"/> event fires and the <see cref="E:ASCOM.Utilities.AlpacaDiscovery.DiscoveryCompleted"/> property returns True.
+ </para>
+ <para>
+ Once discovery is complete, .NET clients can retrieve details of discovered Alpaca devices and associated ASCOM interface devices through the <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevices"/> and <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevices(System.String)"/> methods.
+ COM clients must use the <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevicesAsArrayList"/> and <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevicesAsArrayList(System.String)"/> properties because COM does not support the generic classes used 
+ in the <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAlpacaDevices"/> and <see cref="M:ASCOM.Utilities.AlpacaDiscovery.GetAscomDevices(System.String)"/> methods. 
+ </para>
+ </remarks>
 </member>
 <member name="M:ASCOM.Utilities.AlpacaDiscovery.#ctor">
  <summary>
@@ -316,7 +332,7 @@ ASCOM.Utilities
 </member>
 <member name="T:ASCOM.Utilities.AscomDevice">
  <summary>
- Description of an ASCOM device that is served by an Alpaca device that is discovered by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
+ Data object describing an ASCOM device that is served by an Alpaca device as returned by the <see cref="T:ASCOM.Utilities.AlpacaDiscovery"/> component.
  </summary>
 </member>
 <member name="M:ASCOM.Utilities.AscomDevice.#ctor">
@@ -387,7 +403,7 @@ ASCOM.Utilities
 </member>
 <member name="T:ASCOM.Utilities.ConfiguredDevice">
  <summary>
- Description of a single ASCOM device as returned within the <see cref="T:ASCOM.Utilities.AlpacaDevice"/> class.
+ Data object describing a single ASCOM device as returned within the <see cref="T:ASCOM.Utilities.AlpacaDevice"/> class.
  </summary>
 </member>
 <member name="M:ASCOM.Utilities.ConfiguredDevice.#ctor">
@@ -886,6 +902,15 @@ ASCOM.Utilities
  </summary>
  <param name="p_IgnoreChecks">If true, suppresses the exception normally thrown if a valid profile is not present</param>
  <remarks></remarks>
+</member>
+<member name="M:ASCOM.Utilities.RegistryAccess.RenameKey(System.String,System.String)">
+ <summary>
+ Rename a subkey by copying its contents to the new name and deleting the original key
+ </summary>
+ <param name="CurrentSubKeyName">Current key name</param>
+ <param name="NewSubKeyName">New key name</param>
+ <remarks>The original version of this method just renamed the key and copied its values, however it did not copy any of the current key's subkeys. 
+ As of Platform 6.5 SP1 the method recursively calls itself in order to copy any subkeys and their values as well.</remarks>
 </member>
 <member name="M:ASCOM.Utilities.RegistryAccess.EnumProfile(System.String)">
  <summary>
